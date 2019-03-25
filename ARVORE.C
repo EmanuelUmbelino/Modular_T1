@@ -62,6 +62,12 @@
          char Valor ;
                /* Valor do nó */
 
+         char Chave ;
+               /* Chave do nó */
+
+		 struct tgNoArvore * pNoCostura ;
+				/* Ponteiro que efetuará a costura entre as fohas */
+
    } tpNoArvore ;
 
 /***********************************************************************
