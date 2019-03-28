@@ -13,6 +13,8 @@
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
+*       1.20   elu   28/03/2019 Criadas funções para ordenar a costura e a auxiliar para 
+*                               trocar nó de posição com o próximo da costura.
 *       1.10   elu   28/03/2019 Criadas funções para pegar folha mais à esquerda e para
 *                               costurar folhas numa lista.
 *       1.01   elu   25/03/2019 Colocado Chave e Ponteiro para Costura nos nós da Árvore
@@ -111,11 +113,15 @@
 
    static void CosturarFolhas( ) ;
 
-   static void CosturarFolhasAux( ) ;
+   static void CosturarFolhasAux( tpNoArvore * pNo , tpNoArvore ** ref) ;
 
    static tpNoArvore * PegaFolhaEsquerda( ) ;
 
    static tpNoArvore * PegaFolhaEsquerdaAux( tpNoArvore * pNo ) ;
+
+   static void OrdenaCostura( ) ;
+
+   static tpNoArvore * Troca( tpNoArvore * pNo ) ;
 
 /*****  Código das funções exportadas pelo módulo  *****/
 
@@ -483,7 +489,9 @@
 ***********************************************************************/
    void CosturarFolhas()
    {
-      CosturarFolhasAux( pArvore->pNoRaiz , NULL );
+      CosturarFolhasAux( pArvore->pNoRaiz , NULL ) ;
+      pArvore->pNoCostura = PegaFolhaEsquerda() ;
+      OrdenaCostura() ;
    }
 
    void CosturarFolhasAux( tpNoArvore * pNo , tpNoArvore ** ref)
@@ -508,7 +516,7 @@
          }
       }
 
-      CosturarFolhasAux( pNo->pNoEsq, ref );
+      CosturarFolhasAux( pNo->pNoEsq, ref ) ;
 
    } /* Fim função: ARV Costurar folhas da árvore */
 
@@ -527,7 +535,7 @@
    {
       if ( pNo->pNoEsq == NULL && pNo->pNoDir == NULL )
       {
-         return pNo;
+         return pNo ;
       }
       else if (pNo->pNoEsq != NULL)
       {
@@ -536,5 +544,78 @@
       return PegaFolhaEsquerdaAux( pNo->pNoDir ) ;
 
    } /* Fim função: ARV Pega folha mais a esquerda da árvore */
+
+
+/***********************************************************************
+*
+*  $FC Função: ARV Ordena a lista costura pelo valor da chave
+*
+***********************************************************************/
+   void OrdenaCostura()
+   {
+      int tam, i, troca ;
+      tpNoArvore * ant ;
+      tpNoArvore * atual = pArvore->pNoCostura ;
+
+	   for ( tam = 0; atual != NULL; tam ++, atual = atual->pNoCostura ) ;
+
+      do
+      {
+         atual = pArvore->pNoCostura ;
+         ant = NULL ;
+         troca = 0 ;
+         for ( i = 0; i < tam-1; i++ )
+         {
+            if ( atual != NULL )
+            {
+               if ( atual->Chave > atual->pNoCostura->Chave )
+               {
+                  troca++ ;
+                  if ( ant == NULL )
+                  {
+                     pArvore->pNoCostura = Troca(atual) ;
+                     ant = pArvore->pNoCostura ;
+                     atual = ant->pNoCostura ;
+                  }
+                  else
+                  {
+                     ant->pNoCostura = Troca(atual) ;
+                     ant = ant->pNoCostura ;
+                     atual = ant->pNoCostura ;
+                  }
+               }
+               else 
+               {
+                  ant = atual ;
+               }
+               atual = ant->pNoCostura ;
+            }
+         }
+         tam-- ;
+      } while ( troca != 0 && tam > 1 ) ;
+
+   } /* Fim função: ARV Ordena a lista costura pelo valor da chave */
+
+
+/***********************************************************************
+*
+*  $FC Função: ARV Troca nó de posição com o próximo da lista e retorna o ponteiro para posição atual
+*
+*  $EAE Assertivas de entradas esperadas
+*     pNo != NULL
+*
+***********************************************************************/
+   tpNoArvore * Troca( tpNoArvore * pNo )
+   {
+      if ( pNo->costura != NULL )
+      {
+         struct Node * aux = pNo->pNoCostura ;
+         pNo->pNoCostura = pNo->pNoCostura->pNoCostura ;
+         aux->pNoCostura = pNo ;
+         return aux ;
+      }
+      return pNo ;
+   } /* Fim função: ARV Troca nó de posição */
+
 /********** Fim do módulo de implementação: Módulo árvore **********/
 
