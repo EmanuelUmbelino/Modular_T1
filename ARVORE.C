@@ -1,5 +1,5 @@
 /***************************************************************************
-*  $MCI MÛdulo de implementaÁ„o: MÛdulo ·rvore
+*  $MCI M√≥dulo de implementa√ß√£o: M√≥dulo √°rvore
 *
 *  Arquivo gerado:              ARVORE.C
 *  Letras identificadoras:      ARV
@@ -9,14 +9,14 @@
 *
 *  Projeto: Disciplinas INF 1628 / 1301
 *  Gestor:  DI/PUC-Rio
-*  Autores: avs - Arndt von Staa
+*  Autores: elu - Emanuel Lima Umbelino
 *
-*  $HA HistÛrico de evoluÁ„o:
-*     Vers„o  Autor    Data     ObservaÁıes
-*       3.00   avs   28/02/2003 UniformizaÁ„o da interface das funÁıes e
-*                               de todas as condiÁıes de retorno.
-*       2.00   avs   03/08/2002 EliminaÁ„o de cÛdigo duplicado, reestruturaÁ„o
-*       1.00   avs   15/08/2001 InÌcio do desenvolvimento
+*  $HA Hist√≥rico de evolu√ß√£o:
+*     Vers√£o  Autor    Data     Observa√ß√µes
+*       1.10   elu   28/03/2019 Criadas fun√ß√µes para pegar folha mais √† esquerda e para
+*                               costurar folhas numa lista.
+*       1.01   elu   25/03/2019 Colocado Chave e Ponteiro para Costura nos n√≥s da √Årvore
+*       1.00   elu   25/03/2019 Inicializado projeto
 *
 ***************************************************************************/
 
@@ -29,11 +29,11 @@
 
 /***********************************************************************
 *
-*  $TC Tipo de dados: ARV Descritor do nÛ da ·rvore
+*  $TC Tipo de dados: ARV Descritor do n√≥ da √°rvore
 *
 *
-*  $ED DescriÁ„o do tipo
-*     Descreve a organizaÁ„o do nÛ
+*  $ED Descri√ß√£o do tipo
+*     Descreve a organiza√ß√£o do n√≥
 *
 ***********************************************************************/
 
@@ -43,62 +43,65 @@
                /* Ponteiro para pai
                *
                *$EED Assertivas estruturais
-               *   … NULL sse o nÛ È raiz
-               *   Se n„o for raiz, um de pNoEsq ou pNoDir de pNoPai do nÛ
-               *   corrente apontam para o nÛ corrente */
+               *   √â NULL sse o n√≥ √© raiz
+               *   Se n√£o for raiz, um de pNoEsq ou pNoDir de pNoPai do n√≥
+               *   corrente apontam para o n√≥ corrente */
 
          struct tgNoArvore * pNoEsq ;
-               /* Ponteiro para filho ‡ esquerda
+               /* Ponteiro para filho √† esquerda
                *
                *$EED Assertivas estruturais
-               *   se pNoEsq do nÛ X != NULL ent„o pNoPai de pNoEsq aponta para o nÛ X */
+               *   se pNoEsq do n√≥ X != NULL ent√£o pNoPai de pNoEsq aponta para o n√≥ X */
 
          struct tgNoArvore * pNoDir ;
-               /* Ponteiro para filho ‡ direita
+               /* Ponteiro para filho √† direita
                *
                *$EED Assertivas estruturais
-               *   se pNoDir do nÛ X != NULL ent„o pNoPai de pNoDir aponta para o nÛ X */
+               *   se pNoDir do n√≥ X != NULL ent√£o pNoPai de pNoDir aponta para o n√≥ X */
 
          char Valor ;
-               /* Valor do nÛ */
+               /* Valor do n√≥ */
 
          char Chave ;
-               /* Chave do nÛ */
+               /* Chave do n√≥ */
 
-		 struct tgNoArvore * pNoCostura ;
-				/* Ponteiro que efetuar· a costura entre as fohas */
+		   struct tgNoArvore * pNoCostura ;
+				/* Ponteiro para pr√≥ximo n√≥ da costura */
 
    } tpNoArvore ;
 
 /***********************************************************************
 *
-*  $TC Tipo de dados: ARV Descritor da cabeÁa de uma ·rvore
+*  $TC Tipo de dados: ARV Descritor da cabe√ßa de uma √°rvore
 *
 *
-*  $ED DescriÁ„o do tipo
-*     A cabeáa da ·rvore È o ponto de acesso para uma determinada ·rvore.
-*     Por intermÈdio da referÍncia para o nÛ corrente e do ponteiro
-*     pai pode-se navegar a ·rvore sem necessitar de uma pilha.
-*     Pode-se, inclusive, operar com a ·rvore em forma de co-rotina.
+*  $ED Descri√ß√£o do tipo
+*     A cabe√ßa da √°rvore √© o ponto de acesso para uma determinada √°rvore.
+*     Por interm√©dio da refer√™ncia para o n√≥ corrente e do ponteiro
+*     pai pode-se navegar a √°rvore sem necessitar de uma pilha.
+*     Pode-se, inclusive, operar com a √°rvore em forma de co-rotina.
 *
 ***********************************************************************/
 
    typedef struct tgArvore {
 
          tpNoArvore * pNoRaiz ;
-               /* Ponteiro para a raiz da ·rvore */
+               /* Ponteiro para a raiz da √°rvore */
 
          tpNoArvore * pNoCorr ;
-               /* Ponteiro para o nÛ corrente da ·rvore */
+               /* Ponteiro para o n√≥ corrente da √°rvore */
+
+         tpNoArvore * pNoCostura ;
+               /* Ponteiro para o in√≠cio da lista costura */
 
    } tpArvore ;
 
-/*****  Dados encapsulados no mÛdulo  *****/
+/*****  Dados encapsulados no m√≥dulo  *****/
 
       static tpArvore * pArvore = NULL ;
-            /* Ponteiro para a cabeáa da ·rvore */
+            /* Ponteiro para a cabe√ßa da √°rvore */
 
-/***** ProtÛtipos das funÁıes encapuladas no mÛdulo *****/
+/***** Prot√≥tipos das fun√ß√µes encapuladas no m√≥dulo *****/
 
    static tpNoArvore * CriarNo( char ValorParm ) ;
 
@@ -106,11 +109,19 @@
 
    static void DestroiArvore( tpNoArvore * pNo ) ;
 
-/*****  CÛdigo das funÁıes exportadas pelo mÛdulo  *****/
+   static void CosturarFolhas( ) ;
+
+   static void CosturarFolhasAux( ) ;
+
+   static tpNoArvore * PegaFolhaEsquerda( ) ;
+
+   static tpNoArvore * PegaFolhaEsquerdaAux( tpNoArvore * pNo ) ;
+
+/*****  C√≥digo das fun√ß√µes exportadas pelo m√≥dulo  *****/
 
 /***************************************************************************
 *
-*  FunÁ„o: ARV Criar ·rvore
+*  Fun√ß√£o: ARV Criar √°rvore
 *  ****/
 
    ARV_tpCondRet ARV_CriarArvore( void )
@@ -132,11 +143,11 @@
 
       return ARV_CondRetOK ;
 
-   } /* Fim funÁ„o: ARV Criar ·rvore */
+   } /* Fim fun√ß√£o: ARV Criar √°rvore */
 
 /***************************************************************************
 *
-*  FunÁ„o: ARV Destruir ·rvore
+*  Fun√ß√£o: ARV Destruir √°rvore
 *  ****/
 
    void ARV_DestruirArvore( void )
@@ -152,11 +163,11 @@
          pArvore = NULL ;
       } /* if */
 
-   } /* Fim funÁ„o: ARV Destruir ·rvore */
+   } /* Fim fun√ß√£o: ARV Destruir √°rvore */
 
 /***************************************************************************
 *
-*  FunÁ„o: ARV Adicionar filho ‡ esquerda
+*  Fun√ß√£o: ARV Adicionar filho √† esquerda
 *  ****/
 
    ARV_tpCondRet ARV_InserirEsquerda( char ValorParm )
@@ -175,7 +186,7 @@
             return CondRet ;
          } /* if */
 
-      /* Criar nÛ ‡ esquerda de folha */
+      /* Criar n√≥ √† esquerda de folha */
 
          pCorr = pArvore->pNoCorr ;
          if ( pCorr == NULL )
@@ -197,15 +208,15 @@
             return ARV_CondRetOK ;
          } /* if */
 
-      /* Tratar n„o folha ‡ esquerda */
+      /* Tratar n√≥o folha √† esquerda */
 
          return ARV_CondRetNaoEhFolha ;
 
-   } /* Fim funÁ„o: ARV Adicionar filho ‡ esquerda */
+   } /* Fim fun√ß√£o: ARV Adicionar filho √† esquerda */
 
 /***************************************************************************
 *
-*  FunÁ„o: ARV Adicionar filho ‡ direita
+*  Fun√ß√£o: ARV Adicionar filho √† direita
 *  ****/
 
    ARV_tpCondRet ARV_InserirDireita( char ValorParm )
@@ -224,7 +235,7 @@
             return CondRet ;
          } /* if */
 
-      /* Criar nÛ ‡ direita de folha */
+      /* Criar n√≥ √† direita de folha */
 
          pCorr = pArvore->pNoCorr ;
          if ( pCorr == NULL )
@@ -246,15 +257,15 @@
             return ARV_CondRetOK ;
          } /* if */
 
-      /* Tratar n„o folha ‡ direita */
+      /* Tratar n√≥o folha √† direita */
 
          return ARV_CondRetNaoEhFolha ;
 
-   } /* Fim funÁ„o: ARV Adicionar filho ‡ direita */
+   } /* Fim fun√ß√£o: ARV Adicionar filho √† direita */
 
 /***************************************************************************
 *
-*  FunÁ„o: ARV Ir para nÛ pai
+*  Fun√ß√£o: ARV Ir para n√≥ pai
 *  ****/
 
    ARV_tpCondRet ARV_IrPai( void )
@@ -277,11 +288,11 @@
          return ARV_CondRetNohEhRaiz ;
       } /* if */
 
-   } /* Fim funÁ„o: ARV Ir para nÛ pai */
+   } /* Fim fun√ß√£o: ARV Ir para n√≥ pai */
 
 /***************************************************************************
 *
-*  FunÁ„o: ARV Ir para nÛ ‡ esquerda
+*  Fun√ß√£o: ARV Ir para n√≥ √† esquerda
 *  ****/
 
    ARV_tpCondRet ARV_IrNoEsquerda( void )
@@ -305,11 +316,11 @@
       pArvore->pNoCorr = pArvore->pNoCorr->pNoEsq ;
       return ARV_CondRetOK ;
 
-   } /* Fim funÁ„o: ARV Ir para nÛ ‡ esquerda */
+   } /* Fim fun√ß√£o: ARV Ir para n√≥ √† esquerda */
 
 /***************************************************************************
 *
-*  FunÁ„o: ARV Ir para nÛ ‡ direita
+*  Fun√ß√£o: ARV Ir para n√≥ √† direita
 *  ****/
 
    ARV_tpCondRet ARV_IrNoDireita( void )
@@ -333,11 +344,11 @@
       pArvore->pNoCorr = pArvore->pNoCorr->pNoDir ;
       return ARV_CondRetOK ;
 
-   } /* Fim funÁ„o: ARV Ir para nÛ ‡ direita */
+   } /* Fim fun√ß√£o: ARV Ir para n√≥ √† direita */
 
 /***************************************************************************
 *
-*  FunÁ„o: ARV Obter valor corrente
+*  Fun√ß√£o: ARV Obter valor corrente
 *  ****/
 
    ARV_tpCondRet ARV_ObterValorCorr( char * ValorParm )
@@ -355,21 +366,21 @@
 
       return ARV_CondRetOK ;
 
-   } /* Fim funÁ„o: ARV Obter valor corrente */
+   } /* Fim fun√ß√£o: ARV Obter valor corrente */
 
 
-/*****  CÛdigo das funÁıes encapsuladas no mÛdulo  *****/
+/*****  C√≥digo das fun√ß√µes encapsuladas no m√≥dulo  *****/
 
 
 /***********************************************************************
 *
-*  $FC FunÁ„o: ARV Criar nÛ da ·rvore
+*  $FC Fun√ß√£o: ARV Criar n√≥ da √°rvore
 *
 *  $FV Valor retornado
-*     Ponteiro para o nÛ criado.
-*     Ser· NULL caso a memÛria tenha se esgotado.
-*     Os ponteiros do nÛ criado estar„o nulos e o valor È igual ao do
-*     par‚metro.
+*     Ponteiro para o n√≥ criado.
+*     Ser√° NULL caso a mem√≥ria tenha se esgotado.
+*     Os ponteiros do n√≥ criado estar√£o nulos e o valor √© igual ao do
+*     par√°metro.
 *
 ***********************************************************************/
 
@@ -390,12 +401,12 @@
       pNo->Valor  = ValorParm ;
       return pNo ;
 
-   } /* Fim funÁ„o: ARV Criar nÛ da ·rvore */
+   } /* Fim fun√ß√£o: ARV Criar n√≥ da √°rvore */
 
 
 /***********************************************************************
 *
-*  $FC FunÁ„o: ARV Criar nÛ raiz da ·rvore
+*  $FC Fun√ß√£o: ARV Criar n√≥ raiz da √°rvore
 *
 *  $FV Valor retornado
 *     ARV_CondRetOK
@@ -435,12 +446,12 @@
 
       return ARV_CondRetNaoCriouRaiz ;
 
-   } /* Fim funÁ„o: ARV Criar nÛ raiz da ·rvore */
+   } /* Fim fun√ß√£o: ARV Criar n√≥ raiz da √°rvore */
 
 
 /***********************************************************************
 *
-*  $FC FunÁ„o: ARV Destruir a estrutura da ·rvore
+*  $FC Fun√ß√£o: ARV Destruir a estrutura da √°rvore
 *
 *  $EAE Assertivas de entradas esperadas
 *     pNoArvore != NULL
@@ -462,7 +473,68 @@
 
       free( pNo ) ;
 
-   } /* Fim funÁ„o: ARV Destruir a estrutura da ·rvore */
+   } /* Fim fun√ß√£o: ARV Destruir a estrutura da √°rvore */
 
-/********** Fim do mÛdulo de implementaÁ„o: MÛdulo ·rvore **********/
+
+/***********************************************************************
+*
+*  $FC Fun√ß√£o: ARV Costurar folhas da √°rvore
+*
+***********************************************************************/
+   void CosturarFolhas()
+   {
+      CosturarFolhasAux( pArvore->pNoRaiz , NULL );
+   }
+
+   void CosturarFolhasAux( tpNoArvore * pNo , tpNoArvore ** ref)
+   {
+      if ( pNo == NULL ) return ;
+
+      CosturarFolhasAux( pNo->pNoDir, ref ) ;
+      
+      if ( pNo->pNoEsq == NULL && pNo->pNoDir == NULL )
+      {
+         if ( *ref == NULL )
+         {
+            pNo->pNoCostura = NULL ;
+            *ref = pNo ;
+            return ;
+         }
+         else
+         {
+            root->pNoCostura = *ref ;
+            *pNo = pNo ;
+            return ;
+         }
+      }
+
+      CosturarFolhasAux( pNo->pNoEsq, ref );
+
+   } /* Fim fun√ß√£o: ARV Costurar folhas da √°rvore */
+
+
+/***********************************************************************
+*
+*  $FC Fun√ß√£o: ARV Pega folha mais a esquerda da √°rvore
+*
+***********************************************************************/
+   tpNoArvore * PegaFolhaEsquerda()
+   {
+      return PegaFolhaEsquerdaAux( pArvore->pNoRaiz ) ;
+   }
+
+   tpNoArvore * PegaFolhaEsquerdaAux( tpNoArvore * pNo ) 
+   {
+      if ( pNo->pNoEsq == NULL && pNo->pNoDir == NULL )
+      {
+         return pNo;
+      }
+      else if (pNo->pNoEsq != NULL)
+      {
+         return PegaFolhaEsquerdaAux( pNo->pNoEsq ) ;
+      }
+      return PegaFolhaEsquerdaAux( pNo->pNoDir ) ;
+
+   } /* Fim fun√ß√£o: ARV Pega folha mais a esquerda da √°rvore */
+/********** Fim do m√≥dulo de implementa√ß√£o: M√≥dulo √°rvore **********/
 
