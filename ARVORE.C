@@ -510,8 +510,8 @@
          }
          else
          {
-            root->pNoCostura = *ref ;
-            *pNo = pNo ;
+            pNo->pNoCostura = *ref ;
+            *ref = pNo ;
             return ;
          }
       }
@@ -607,9 +607,10 @@
 ***********************************************************************/
    tpNoArvore * Troca( tpNoArvore * pNo )
    {
-      if ( pNo->costura != NULL )
+      tpNoArvore * aux;
+      if ( pNo->pNoCostura != NULL )
       {
-         struct Node * aux = pNo->pNoCostura ;
+         aux = pNo->pNoCostura ;
          pNo->pNoCostura = pNo->pNoCostura->pNoCostura ;
          aux->pNoCostura = pNo ;
          return aux ;
