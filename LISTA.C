@@ -9,7 +9,7 @@ struct lista
       LST *prox;
 };
 
-LST * CriaLista ()
+LST * LST_CriaLista ()
 {
 	LST *cabeca;
 	cabeca = (LST*) malloc(sizeof (LST));
@@ -17,7 +17,7 @@ LST * CriaLista ()
 	return cabeca;
 }
 
-void Insere (int x, LST *p)
+void LST_Insere_Elemento (int x, LST *p)
 {
 	LST *nova;
 	nova = (LST*) malloc(sizeof (LST));
@@ -26,7 +26,7 @@ void Insere (int x, LST *p)
 	p->prox = nova;
 }
 
-void Remove (LST *p)
+void LST_Remove_Elemento (LST *p)
 {
 	if (p->prox != NULL)
 	{
@@ -37,11 +37,11 @@ void Remove (LST *p)
 	}
 }
 
-void Imprime (LST *le)
+void LST_Imprime_Lista (LST *le)
 {
 	if (le->prox != NULL) 
 	{
 		printf ("%d\n", le->prox->data);
-		Imprime (le->prox);
+		LST_Imprime_Lista (le->prox);
 	}
 }

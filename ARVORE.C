@@ -9,16 +9,18 @@
 *
 *  Projeto: Disciplinas INF 1628 / 1301
 *  Gestor:  DI/PUC-Rio
-*  Autores: elu - Emanuel Lima Umbelino
+*  Autores: elu - Emanuel Lima Umbelino, jpk - João Pedro Kalil 
 *
 *  $HA Histórico de evolução:
-*     Versão  Autor    Data     Observações
-*       1.20   elu   28/03/2019 Criadas funções para ordenar a costura e a auxiliar para 
-*                               trocar nó de posição com o próximo da costura.
-*       1.10   elu   28/03/2019 Criadas funções para pegar folha mais à esquerda e para
-*                               costurar folhas numa lista.
-*       1.01   elu   25/03/2019 Colocado Chave e Ponteiro para Costura nos nós da Árvore
-*       1.00   elu   25/03/2019 Inicializado projeto
+*     Versão  Autores		  Data			Observações
+*       1.20   elu/jpk		28/03/2019	Criadas funções para ordenar a costura e a auxiliar para 
+*										trocar nó de posição com o próximo da costura.
+
+*       1.10   elu/jpk		28/03/2019	Criadas funções para pegar folha mais à esquerda e para
+*										costurar folhas numa lista.
+
+*       1.01   elu/jpk		25/03/2019	Colocado Chave e Ponteiro para Costura nos nós da Árvore
+*       1.00   elu/jpk		25/03/2019	Inicializado projeto
 *
 ***************************************************************************/
 
@@ -27,7 +29,9 @@
 
 #define ARVORE_OWN
 #include "ARVORE.H"
+#include "LISTA.H"
 #undef ARVORE_OWN
+
 
 /***********************************************************************
 *
@@ -64,10 +68,10 @@
          char Valor ;
                /* Valor do nó */
 
-         char Chave ;
-               /* Chave do nó */
+         LST * listaDeInteiros;
+				/* Ponteiro para a lista encadeada de inteiros que cada nó terá*/
 
-		   struct tgNoArvore * pNoCostura ;
+		 struct tgNoArvore * pNoCostura ;
 				/* Ponteiro para próximo nó da costura */
 
    } tpNoArvore ;
@@ -507,14 +511,14 @@
             pNo->pNoCostura = NULL ;
             *ref = pNo ;
             return ;
-         }
+         } /* if */
          else
          {
             pNo->pNoCostura = *ref ;
             *ref = pNo ;
             return ;
          }
-      }
+      }/* if */
 
       CosturarFolhasAux( pNo->pNoEsq, ref ) ;
 
@@ -536,7 +540,7 @@
       if ( pNo->pNoEsq == NULL && pNo->pNoDir == NULL )
       {
          return pNo ;
-      }
+      }/* if */
       else if (pNo->pNoEsq != NULL)
       {
          return PegaFolhaEsquerdaAux( pNo->pNoEsq ) ;
@@ -576,20 +580,20 @@
                      pArvore->pNoCostura = Troca(atual) ;
                      ant = pArvore->pNoCostura ;
                      atual = ant->pNoCostura ;
-                  }
+                  }/* if */
                   else
                   {
                      ant->pNoCostura = Troca(atual) ;
                      ant = ant->pNoCostura ;
                      atual = ant->pNoCostura ;
                   }
-               }
+               }/* if */
                else 
                {
                   ant = atual ;
                }
                atual = ant->pNoCostura ;
-            }
+            }/* if */
          }
          tam-- ;
       } while ( troca != 0 && tam > 1 ) ;
@@ -614,9 +618,29 @@
          pNo->pNoCostura = pNo->pNoCostura->pNoCostura ;
          aux->pNoCostura = pNo ;
          return aux ;
-      }
+      } /* if */
+
       return pNo ;
    } /* Fim função: ARV Troca nó de posição */
+
+
+/***********************************************************************
+*
+*  $FC Função: ARV Printa os nós costurados da árvore
+*
+*  $EAE Assertivas de entradas esperadas
+*     pNo != NULL
+*
+***********************************************************************/
+   tpNoArvore * Troca( tpNoArvore * pNo )
+   {
+	   while (pNo != NULL)
+	   {
+		   printf("%d -> ", pNo->valor);
+		   pNo = pNo->pNoCostura;
+	   }
+	   printf("NULL\n");
+   } /* Fim função: ARV Printa árvore costurada */
 
 /********** Fim do módulo de implementação: Módulo árvore **********/
 
