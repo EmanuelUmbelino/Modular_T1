@@ -17,7 +17,7 @@ LST * LST_CriaLista ()
 	return cabeca;
 }
 
-void LST_Insere_Elemento (int x, LST *p)
+void LST_InsereElemento (int x, LST *p)
 {
 	LST *nova;
 	nova = (LST*) malloc(sizeof (LST));
@@ -26,7 +26,7 @@ void LST_Insere_Elemento (int x, LST *p)
 	p->prox = nova;
 }
 
-void LST_Remove_Elemento (LST *p)
+void LST_RemoveElemento (LST *p)
 {
 	if (p->prox != NULL)
 	{
@@ -37,7 +37,7 @@ void LST_Remove_Elemento (LST *p)
 	}
 }
 
-void LST_Imprime_Lista (LST *le)
+void LST_ImprimeLista (LST *le)
 {
 	if (le->prox != NULL) 
 	{

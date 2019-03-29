@@ -12,15 +12,14 @@
 *  Autores: elu - Emanuel Lima Umbelino, jpk - João Pedro Kalil 
 *
 *  $HA Histórico de evolução:
-*     Versão  Autores		  Data			Observações
-*       1.20   elu/jpk		28/03/2019	Criadas funções para ordenar a costura e a auxiliar para 
-*										trocar nó de posição com o próximo da costura.
-
-*       1.10   elu/jpk		28/03/2019	Criadas funções para pegar folha mais à esquerda e para
-*										costurar folhas numa lista.
-
-*       1.01   elu/jpk		25/03/2019	Colocado Chave e Ponteiro para Costura nos nós da Árvore
-*       1.00   elu/jpk		25/03/2019	Inicializado projeto
+*		Versão		Autores		   Data			Observações
+*		 1.25		elu/jpk		28/03/2019		Criadas função para imprimir a costura das folhas.
+*		 1.20		elu/jpk		28/03/2019		Criadas funções para ordenar a costura e a auxiliar para 
+*												trocar nó de posição com o próximo da costura.
+*		 1.10		elu/jpk		28/03/2019		Criadas funções para pegar folha mais à esquerda e para
+*												costurar folhas numa lista.
+*		 1.01		elu/jpk		25/03/2019		Colocado Chave e Ponteiro para Costura nos nós da Árvore
+*		 1.00		elu/jpk		25/03/2019		Inicializado projeto
 *
 ***************************************************************************/
 
@@ -115,15 +114,13 @@
 
    static void DestroiArvore( tpNoArvore * pNo ) ;
 
-   static void CosturarFolhas( ) ;
-
    static void CosturarFolhasAux( tpNoArvore * pNo , tpNoArvore ** ref) ;
 
-   static tpNoArvore * PegaFolhaEsquerda( ) ;
+   static tpNoArvore * PegaFolhaEsquerda( void ) ;
 
    static tpNoArvore * PegaFolhaEsquerdaAux( tpNoArvore * pNo ) ;
 
-   static void OrdenaCostura( ) ;
+   static void OrdenaCostura( void ) ;
 
    static tpNoArvore * Troca( tpNoArvore * pNo ) ;
 
@@ -379,6 +376,62 @@
    } /* Fim função: ARV Obter valor corrente */
 
 
+/***********************************************************************
+*
+*  $FC Função: ARV Imprime costura das folhas
+*  ****/
+   ARV_tpCondRet ARV_ImprimeCostura( void )
+   {
+
+      if ( pArvore == NULL )
+      {
+         return ARV_CondRetArvoreNaoExiste ;
+      } /* if */
+      if ( pArvore->pNoCostura == NULL )
+      {
+         return ARV_CondRetCosturaNaoExiste ;
+      } /* if */
+
+      tpNoArvore * pNo = pArvore->pNoCostura ;
+
+	   while ( pNo != NULL )
+	   {
+		   printf("%d -> ", pNo->valor) ;
+		   pNo = pNo->pNoCostura ;
+	   } /* while */
+
+	   printf("NULL\n") ;
+
+      return ARV_CondRetOK ;
+
+   } /* Fim função: ARV Imprime costura das folhas */
+
+
+/***********************************************************************
+*
+*  $FC Função: ARV Costurar folhas da árvore
+*  ****/
+   ARV_tpCondRet CosturarFolhas( void )
+   {
+
+      if ( pArvore == NULL )
+      {
+         return ARV_CondRetArvoreNaoExiste ;
+      } /* if */
+      if ( pArvore->pNoRaiz == NULL )
+      {
+         return ARV_CondRetArvoreVazia ;
+      } /* if */
+
+      CosturarFolhasAux( pArvore->pNoRaiz , NULL ) ;
+      pArvore->pNoCostura = PegaFolhaEsquerda() ;
+      OrdenaCostura() ;
+
+      return ARV_CondRetOK ;
+
+   }
+
+
 /*****  Código das funções encapsuladas no módulo  *****/
 
 
@@ -491,7 +544,7 @@
 *  $FC Função: ARV Costurar folhas da árvore
 *
 ***********************************************************************/
-   void CosturarFolhas()
+   void CosturarFolhas( void )
    {
       CosturarFolhasAux( pArvore->pNoRaiz , NULL ) ;
       pArvore->pNoCostura = PegaFolhaEsquerda() ;
@@ -517,7 +570,7 @@
             pNo->pNoCostura = *ref ;
             *ref = pNo ;
             return ;
-         }
+         } /* else */
       }/* if */
 
       CosturarFolhasAux( pNo->pNoEsq, ref ) ;
@@ -530,7 +583,7 @@
 *  $FC Função: ARV Pega folha mais a esquerda da árvore
 *
 ***********************************************************************/
-   tpNoArvore * PegaFolhaEsquerda()
+   tpNoArvore * PegaFolhaEsquerda( void )
    {
       return PegaFolhaEsquerdaAux( pArvore->pNoRaiz ) ;
    }
@@ -540,11 +593,11 @@
       if ( pNo->pNoEsq == NULL && pNo->pNoDir == NULL )
       {
          return pNo ;
-      }/* if */
+      } /* if */
       else if (pNo->pNoEsq != NULL)
       {
          return PegaFolhaEsquerdaAux( pNo->pNoEsq ) ;
-      }
+      } /* else if */
       return PegaFolhaEsquerdaAux( pNo->pNoDir ) ;
 
    } /* Fim função: ARV Pega folha mais a esquerda da árvore */
@@ -555,7 +608,7 @@
 *  $FC Função: ARV Ordena a lista costura pelo valor da chave
 *
 ***********************************************************************/
-   void OrdenaCostura()
+   void OrdenaCostura( void )
    {
       int tam, i, troca ;
       tpNoArvore * ant ;
@@ -580,21 +633,21 @@
                      pArvore->pNoCostura = Troca(atual) ;
                      ant = pArvore->pNoCostura ;
                      atual = ant->pNoCostura ;
-                  }/* if */
+                  } /* if */
                   else
                   {
                      ant->pNoCostura = Troca(atual) ;
                      ant = ant->pNoCostura ;
                      atual = ant->pNoCostura ;
-                  }
-               }/* if */
+                  } /* else */
+               } /* if */
                else 
                {
                   ant = atual ;
-               }
+               } /* else */
                atual = ant->pNoCostura ;
-            }/* if */
-         }
+            } /* if */
+         } /* for */
          tam-- ;
       } while ( troca != 0 && tam > 1 ) ;
 
@@ -623,24 +676,6 @@
       return pNo ;
    } /* Fim função: ARV Troca nó de posição */
 
-
-/***********************************************************************
-*
-*  $FC Função: ARV Printa os nós costurados da árvore
-*
-*  $EAE Assertivas de entradas esperadas
-*     pNo != NULL
-*
-***********************************************************************/
-   tpNoArvore * Troca( tpNoArvore * pNo )
-   {
-	   while (pNo != NULL)
-	   {
-		   printf("%d -> ", pNo->valor);
-		   pNo = pNo->pNoCostura;
-	   }
-	   printf("NULL\n");
-   } /* Fim função: ARV Printa árvore costurada */
 
 /********** Fim do módulo de implementação: Módulo árvore **********/
 

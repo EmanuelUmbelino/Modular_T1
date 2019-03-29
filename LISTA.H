@@ -1,19 +1,19 @@
 /***************************************************************************
 *
-*  $MCD MÛdulo de definiÁ„o: MÛdulo Lista
+*  $MCD M√≥dulo de defini√ß√£o: M√≥dulo Lista
 *
 *  Arquivo gerado:              LISTA.H
 *  Letras identificadoras:      LST
 *
-*  $ED DescriÁ„o do mÛdulo
-*     Este mÛdulo implementa um conjunto simples de funÁıes para criar e
+*  $ED Descri√ß√£o do m√≥dulo
+*     Este m√≥dulo implementa um conjunto simples de fun√ß√µes para criar e
 *     explorar uma lista encadeada.
-*     A lista possui uma cabeÁa que contÈm uma referÍncia para a raÌz da
-*     lista e outra para um nÛ corrente da lista.
-*     Ao iniciar a execuÁ„o do programa n„o existe lista.
-*     A lista poder· estar vazia. Neste caso o primeiro e o nÛ corrente
-*     ser„o nulos, embora a cabeÁa esteja definida.
-*     O nÛ corrente ser· nulo se e somente se a lista estiver vazia.
+*     A lista possui uma cabe√ßa que cont√©m uma refer√™ncia para a raiz da
+*     lista e outra para um n√≥ corrente da lista.
+*     Ao iniciar a execu√ß√£o do programa n√£o existe lista.
+*     A lista poder√° estar vazia. Neste caso o primeiro e o n√≥ corrente
+*     ser√£o nulos, embora a cabe√ßa esteja definida.
+*     O n√≥ corrente ser√° nulo se e somente se a lista estiver vazia.
 *
 ***************************************************************************/
 
@@ -21,9 +21,9 @@ typedef struct lista LST;
 
 /***********************************************************************
 *
-*  $FC FunÁ„o: LST Criar lista
+*  $FC Fun√ß√£o: LST Criar lista
 *
-*  $ED DescriÁ„o da funÁ„o
+*  $ED Descri√ß√£o da fun√ß√£o
 *     Cria uma nova lista vazia.
 *
 *  $FV Valor retornado
@@ -34,39 +34,39 @@ typedef struct lista LST;
 
 /***********************************************************************
 *
-*  $FC FunÁ„o: LST Insere
+*  $FC Fun√ß√£o: LST Insere
 *
-*  $EP Par‚metros
+*  $EP Par√¢metros
 *     $P ValorParm - valor a ser inserido na lista
 *
-*  $ED DescriÁ„o da funÁ„o
-*	  FunÁ„o que insere o novo valor no inÌcio da lista.
+*  $ED Descri√ß√£o da fun√ß√£o
+*	  Fun√ß√£o que insere o novo valor no in√≠cio da lista.
 *
 ***********************************************************************/
 	
-	void LST_Insere_Elemento (int x, LST *p);
+	void LST_InsereElemento (int x, LST *p);
 
 /***********************************************************************
 *
-*  $FC FunÁ„o: LST Remove 
+*  $FC Fun√ß√£o: LST Remove 
 *
-*  $ED DescriÁ„o da funÁ„o
+*  $ED Descri√ß√£o da fun√ß√£o
 *     Remove o primeiro elemento da lista.
 *     Faz nada caso a lista esteja vazia.
 *
 ***********************************************************************/
 
-	void LST_Remove_Elemento (LST *p);
+	void LST_RemoveElemento (LST *p);
 
 /***********************************************************************
 *
-*  $FC FunÁ„o: LST Imprime 
+*  $FC Fun√ß√£o: LST Imprime 
 *
-*  $ED DescriÁ„o da funÁ„o
-*     Imprime todos os elementos da lista partindo do inÌcio da lista.
-*     N„o imprimir· nada caso a lista esteja vazia.
+*  $ED Descri√ß√£o da fun√ß√£o
+*     Imprime todos os elementos da lista partindo do in√≠cio da lista.
+*     N√£o imprimir√° nada caso a lista esteja vazia.
 *
 ***********************************************************************/
 	
-	void LST_Imprime_Lista (LST *le);
+	void LST_ImprimeLista (LST *le);
 
