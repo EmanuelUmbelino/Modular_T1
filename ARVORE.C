@@ -382,7 +382,7 @@
 *  ****/
    ARV_tpCondRet ARV_ImprimeCostura( void )
    {
-
+	  tpNoArvore * pNo ;
       if ( pArvore == NULL )
       {
          return ARV_CondRetArvoreNaoExiste ;
@@ -392,11 +392,11 @@
          return ARV_CondRetCosturaNaoExiste ;
       } /* if */
 
-      tpNoArvore * pNo = pArvore->pNoCostura ;
+       pNo = pArvore->pNoCostura ;
 
 	   while ( pNo != NULL )
 	   {
-		   printf("%d -> ", pNo->valor) ;
+		   printf("%c -> ", pNo->valor) ;
 		   pNo = pNo->pNoCostura ;
 	   } /* while */
 
@@ -413,7 +413,7 @@
 *  ****/
    ARV_tpCondRet CosturarFolhas( void )
    {
-
+	   tpNoArvore **ref;
       if ( pArvore == NULL )
       {
          return ARV_CondRetArvoreNaoExiste ;
@@ -422,11 +422,13 @@
       {
          return ARV_CondRetArvoreVazia ;
       } /* if */
-
-      CosturarFolhasAux( pArvore->pNoRaiz , NULL ) ;
+	  ref = (tpNoArvore **)malloc(sizeof(tpNoArvore*));
+	  *ref = NULL;
+      CosturarFolhasAux( pArvore->pNoRaiz , ref ) ;
       pArvore->pNoCostura = PegaFolhaEsquerda() ;
+	  ARV_ImprimeCostura() ;
       OrdenaCostura() ;
-
+	  ARV_ImprimeCostura() ;
       return ARV_CondRetOK ;
 
    }
@@ -548,7 +550,6 @@
    void CosturarFolhasAux( tpNoArvore * pNo , tpNoArvore ** ref)
    {
       if ( pNo == NULL ) return ;
-
       CosturarFolhasAux( pNo->pNoDir, ref ) ;
       
       if ( pNo->pNoEsq == NULL && pNo->pNoDir == NULL )

@@ -64,6 +64,7 @@
 #define     IR_DIR_CMD          "=irdir"
 #define     OBTER_VAL_CMD       "=obter"
 #define     DESTROI_CMD         "=destruir"
+#define     COSTURAR_CMD        "=costura"
 
 /*****  Código das funções exportadas pelo módulo  *****/
 
@@ -239,6 +240,26 @@
                                      "Conteúdo do nó está errado." ) ;
 
          } /* fim ativa: Testar ARV Obter valor corrente */
+
+		 /* Testar ARV Costurar árvore */
+
+         else if ( strcmp( ComandoTeste , COSTURAR_CMD ) == 0 )
+         {
+			NumLidos = LER_LerParametros( "i" ,
+                               &CondRetEsperada ) ;
+            if ( NumLidos != 1 )
+            {
+               return TST_CondRetParm ;
+            } /* if */
+
+			CondRetObtido = CosturarFolhas();
+
+			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
+                                    "Retorno errado ao ir para direita." );
+
+
+         } /* fim ativa: Testar ARV Destruir árvore */
+
 
       /* Testar ARV Destruir árvore */
 
