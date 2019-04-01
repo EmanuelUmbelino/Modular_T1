@@ -18,7 +18,7 @@
 *												trocar nó de posição com o próximo da costura.
 *		 1.10		elu/jpk		28/03/2019		Criadas funções para pegar folha mais à esquerda e para
 *												costurar folhas numa lista.
-*		 1.01		elu/jpk		25/03/2019		Colocado Chave e Ponteiro para Costura nos nós da Árvore
+*		 1.01		elu/jpk		25/03/2019		Colocado Ponteiro para Costura nos nós da Árvore
 *		 1.00		elu/jpk		25/03/2019		Inicializado projeto
 *
 ***************************************************************************/
@@ -64,7 +64,7 @@
                *$EED Assertivas estruturais
                *   se pNoDir do nó X != NULL então pNoPai de pNoDir aponta para o nó X */
 
-         char Valor ;
+         char valor ;
                /* Valor do nó */
 
          LST * listaDeInteiros;
@@ -369,7 +369,7 @@
       {
          return ARV_CondRetArvoreVazia ;
       } /* if */
-      * ValorParm = pArvore->pNoCorr->Valor ;
+      * ValorParm = pArvore->pNoCorr->valor ;
 
       return ARV_CondRetOK ;
 
@@ -461,7 +461,7 @@
       pNo->pNoPai = NULL ;
       pNo->pNoEsq = NULL ;
       pNo->pNoDir = NULL ;
-      pNo->Valor  = ValorParm ;
+      pNo->valor  = ValorParm ;
       return pNo ;
 
    } /* Fim função: ARV Criar nó da árvore */
@@ -544,12 +544,6 @@
 *  $FC Função: ARV Costurar folhas da árvore
 *
 ***********************************************************************/
-   void CosturarFolhas( void )
-   {
-      CosturarFolhasAux( pArvore->pNoRaiz , NULL ) ;
-      pArvore->pNoCostura = PegaFolhaEsquerda() ;
-      OrdenaCostura() ;
-   }
 
    void CosturarFolhasAux( tpNoArvore * pNo , tpNoArvore ** ref)
    {
@@ -605,7 +599,7 @@
 
 /***********************************************************************
 *
-*  $FC Função: ARV Ordena a lista costura pelo valor da chave
+*  $FC Função: ARV Ordena a lista costura pelo valor do nó
 *
 ***********************************************************************/
    void OrdenaCostura( void )
@@ -625,7 +619,7 @@
          {
             if ( atual != NULL )
             {
-               if ( atual->Chave > atual->pNoCostura->Chave )
+               if ( atual->valor > atual->pNoCostura->valor )
                {
                   troca++ ;
                   if ( ant == NULL )
@@ -651,7 +645,7 @@
          tam-- ;
       } while ( troca != 0 && tam > 1 ) ;
 
-   } /* Fim função: ARV Ordena a lista costura pelo valor da chave */
+   } /* Fim função: ARV Ordena a lista costura pelo valor do nó */
 
 
 /***********************************************************************

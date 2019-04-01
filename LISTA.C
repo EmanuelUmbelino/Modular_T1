@@ -42,6 +42,6 @@ void LST_ImprimeLista (LST *le)
 	if (le->prox != NULL) 
 	{
 		printf ("%d\n", le->prox->data);
-		LST_Imprime_Lista (le->prox);
+		LST_ImprimeLista (le->prox);
 	}
 }

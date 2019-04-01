@@ -73,7 +73,7 @@
          ARV_CondRetNaoPossuiFilho = 7 ,
                /* Nó corrente não possui filho na direção desejada */
 
-         ARV_CondRetFaltouMemoria = 8
+         ARV_CondRetFaltouMemoria = 8 ,
                /* Faltou memória ao alocar dados */
 
          ARV_CondRetCosturaNaoExiste = 9
