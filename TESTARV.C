@@ -65,6 +65,7 @@
 #define     OBTER_VAL_CMD       "=obter"
 #define     DESTROI_CMD         "=destruir"
 #define     COSTURAR_CMD        "=costura"
+#define     IMPRIMECOSTURA_CMD    "=imprimecostura"
 
 /*****  Código das funções exportadas pelo módulo  *****/
 
@@ -252,13 +253,32 @@
                return TST_CondRetParm ;
             } /* if */
 
-			CondRetObtido = CosturarFolhas();
+			CondRetObtido = ARV_CosturarFolhas();
 
 			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
-                                    "Retorno errado ao ir para direita." );
+                                    "Retorno errado ao costurar folhas." );
 
 
-         } /* fim ativa: Testar ARV Destruir árvore */
+         } /* fim ativa: Testar ARV Costurar árvore */
+
+		 /* Testar ARV Imprime Costura */
+
+         else if ( strcmp( ComandoTeste , IMPRIMECOSTURA_CMD ) == 0 )
+         {
+			NumLidos = LER_LerParametros( "i" ,
+                               &CondRetEsperada ) ;
+            if ( NumLidos != 1 )
+            {
+               return TST_CondRetParm ;
+            } /* if */
+
+			CondRetObtido = ARV_ImprimeCostura();
+
+			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
+                                    "Retorno errado ao imprimir costura." );
+
+
+         } /* fim ativa: Testar ARV Imprime Costura */
 
 
       /* Testar ARV Destruir árvore */

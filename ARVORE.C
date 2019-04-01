@@ -411,7 +411,7 @@
 *
 *  $FC Função: ARV Costurar folhas da árvore
 *  ****/
-   ARV_tpCondRet CosturarFolhas( void )
+   ARV_tpCondRet ARV_CosturarFolhas( void )
    {
 	   tpNoArvore **ref;
       if ( pArvore == NULL )
@@ -426,9 +426,7 @@
 	  *ref = NULL;
       CosturarFolhasAux( pArvore->pNoRaiz , ref ) ;
       pArvore->pNoCostura = PegaFolhaEsquerda() ;
-	  ARV_ImprimeCostura() ;
       OrdenaCostura() ;
-	  ARV_ImprimeCostura() ;
       return ARV_CondRetOK ;
 
    }
