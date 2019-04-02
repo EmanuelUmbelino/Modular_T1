@@ -2,46 +2,70 @@
 #include <stdlib.h>
 #include "LISTA.H"
 
-typedef struct lista LST;
+
 struct lista 
 {
       int data; 
       LST *prox;
 };
 
-LST * LST_CriaLista ()
+/***************************************************************************
+*
+*  Função: LST Criar lista encadeada de inteiros
+*
+*  $ED Descrição da função
+*		Retorna um ponteiro para LST apontando para NULL, criando então
+*		o início da lista encadeada de inteiros
+*
+***************************************************************************/
+
+LST * LST_CriarLista ()
 {
-	LST *cabeca;
-	cabeca = (LST*) malloc(sizeof (LST));
-	cabeca->prox = NULL;
-	return cabeca;
+	return NULL;
 }
 
-void LST_InsereElemento (int x, LST *p)
+/***************************************************************************
+*
+*  Função: LST Criar lista encadeada de inteiros
+*
+*  $ED Descrição da função
+*		Função cria um novo nó do tipo LST e o insere no início da lista
+*		tornando esse o novo primeiro elemento da lista encadeada.
+*  
+***************************************************************************/
+
+LST * LST_Insere (int x, LST *p)
 {
 	LST *nova;
-	nova = (LST*) malloc(sizeof (LST));
+	
+	nova =(LST*)malloc(sizeof (LST));
+	if (nova == NULL) 
+	{
+		printf("VALOR NULL\n");
+		return NULL;
+	} /* if */
+	
 	nova->data = x;
-	nova->prox = p->prox;
-	p->prox = nova;
+	nova->prox = p;
+	p = nova;
+	return p ;
 }
 
-void LST_RemoveElemento (LST *p)
-{
-	if (p->prox != NULL)
-	{
-		LST *lixo;
-		lixo = p->prox;
-		p->prox = lixo->prox;
-		free (lixo);
-	}
-}
+/***************************************************************************
+*
+*  Função: LST Criar lista encadeada de inteiros
+*  
+***************************************************************************/
 
-void LST_ImprimeLista (LST *le)
+void LST_Imprime (LST *le)
 {
-	if (le->prox != NULL) 
+	if (le != NULL) 
 	{
-		printf ("%d\n", le->prox->data);
-		LST_ImprimeLista (le->prox);
-	}
+		printf ("%d-> ", le->data);
+		LST_Imprime (le->prox);
+	} /* if */ 
+	else
+	{
+		printf("\n");
+	}/* else */
 }
