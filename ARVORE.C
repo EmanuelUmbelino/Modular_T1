@@ -25,10 +25,10 @@
 
 #include   <malloc.h>
 #include   <stdio.h>
-
+#include "LISTA.H"
 #define ARVORE_OWN
 #include "ARVORE.H"
-#include "LISTA.H"
+
 #undef ARVORE_OWN
 
 
@@ -68,7 +68,7 @@
                /* Valor do nó */
 
          LST * listaDeInteiros;
-				/* Ponteiro para a lista encadeada de inteiros que cada nó terá*/
+				/* Ponteiro para a cabeça da lista encadeada de inteiros que cada nó terá*/
 
 		 struct tgNoArvore * pNoCostura ;
 				/* Ponteiro para próximo nó da costura */
@@ -393,7 +393,7 @@
       } /* if */
 
        pNo = pArvore->pNoCostura ;
-
+	   printf("Costura: ");
 	   while ( pNo != NULL )
 	   {
 		   printf("%c -> ", pNo->valor) ;
@@ -668,7 +668,112 @@
 
       return pNo ;
    } /* Fim função: ARV Troca nó de posição */
+ 
+/***********************************************************************
+*
+*  $FC Função: LST Cria a lista de inteiros para a folha
+*
+*  $EAE Assertivas de entradas esperadas
+*     pNo != NULL 
+*     pNo->pNoEsq == NULL
+*     pNo->pNoDir == NULL
+*
+***********************************************************************/
+   ARV_tpCondRet ARV_IniciaLista( )
+   {
+	  int i;
+	   pArvore->pNoCorr->listaDeInteiros = LST_CriarLista();
+	  
+	   pArvore->pNoCorr->listaDeInteiros = LST_Insere(3,pArvore->pNoCorr->listaDeInteiros);
+	   pArvore->pNoCorr->listaDeInteiros = LST_Insere(1,pArvore->pNoCorr->listaDeInteiros);
+	   pArvore->pNoCorr->listaDeInteiros = LST_Insere(2,pArvore->pNoCorr->listaDeInteiros);
+		   
+	   
+	  if ( pArvore == NULL )
+      {
+         return ARV_CondRetArvoreNaoExiste ;
+      } /* if */
+      if ( pArvore->pNoRaiz == NULL )
+      {
+         return ARV_CondRetArvoreVazia ;
+      } /* if */
+	  if (pArvore->pNoCorr->listaDeInteiros != NULL)
+	  {
+		 return ARV_CondRetOK;
+	  } 
 
+
+   } /* Fim função: ARV Troca nó de posição */
+
+
+/***********************************************************************
+*
+*  $FC Função: LST Insere na lista de inteiros o valor passado à ela 
+*
+*  $EAE Assertivas de entradas esperadas
+*     pNo != NULL 
+*     pNo->pNoEsq == NULL
+*     pNo->pNoDir == NULL
+*     pNo->listaDeInteiros!=NULL
+*
+***********************************************************************/
+
+	ARV_tpCondRet ARV_InsereValorNaLista( int valor )
+	{
+	  LST* dado;
+	  printf("FLAG ENTROU\n");
+	  if ( pArvore == NULL )
+      {
+         return ARV_CondRetArvoreNaoExiste ;
+      } /* if */
+      if ( pArvore->pNoRaiz == NULL )
+      {
+         return ARV_CondRetArvoreVazia ;
+      } /* if */
+		
+	  printf("FLAG VAI INSERIR O VALOR %d\n",valor);
+
+	  //pArvore->pNoCorr->listaDeInteiros = LST_Insere(valor, pArvore->pNoCorr->listaDeInteiros);
+	  //dado  = pArvore->pNoCorr->listaDeInteiros;
+
+	  //printf("valor colocado -> %d",dado->data);
+	  
+	  return ARV_CondRetOK;
+	
+	}
+
+
+	/***********************************************************************
+*
+*  $FC Função: LST Imprime a lista de inteiros do nó corrente
+*
+*  $EAE Assertivas de entradas esperadas
+*     pNo != NULL 
+*     pNo->pNoEsq == NULL
+*     pNo->pNoDir == NULL
+*     pNo->listaDeInteiros!=NULL
+*
+***********************************************************************/
+
+	ARV_tpCondRet ARV_ImprimeLista(  )
+	{
+	  if ( pArvore == NULL )
+      {
+         return ARV_CondRetArvoreNaoExiste ;
+      } /* if */
+      if ( pArvore->pNoRaiz == NULL )
+      {
+         return ARV_CondRetArvoreVazia ;
+      } /* if */
+	  if (pArvore->pNoCorr->listaDeInteiros == NULL)
+	  {
+		 return ARV_CondRetListaDeInteirosNaoExiste;
+	  } /* if */
+	  printf("Lista de inteiros do no %c -> ",pArvore->pNoCorr->valor);
+	  LST_Imprime(pArvore->pNoCorr->listaDeInteiros);
+	  return ARV_CondRetOK;
+	
+	}
 
 /********** Fim do módulo de implementação: Módulo árvore **********/
 

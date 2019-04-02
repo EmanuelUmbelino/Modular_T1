@@ -51,7 +51,7 @@
 
 #include    "generico.h"
 #include    "lerparm.h"
-
+#include	"lista.h"
 #include    "arvore.h"
 
 /* Tabela dos nomes dos comandos de teste específicos */
@@ -66,6 +66,9 @@
 #define     DESTROI_CMD         "=destruir"
 #define     COSTURAR_CMD        "=costura"
 #define     IMPRIMECOSTURA_CMD    "=imprimecostura"
+#define		CRIALISTA_CMD		"=crialista"
+#define		INSERENALISTA_CMD	"=inserenalista"
+#define     IMPRIMELISTA_CMD    "=imprimelista"
 
 /*****  Código das funções exportadas pelo módulo  *****/
 
@@ -252,7 +255,7 @@
             {
                return TST_CondRetParm ;
             } /* if */
-
+			
 			CondRetObtido = ARV_CosturarFolhas();
 
 			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
@@ -279,6 +282,64 @@
 
 
          } /* fim ativa: Testar ARV Imprime Costura */
+
+		
+		 /* Testar ARV Cria a lista */
+
+         else if ( strcmp( ComandoTeste , CRIALISTA_CMD ) == 0 )
+         {
+			NumLidos = LER_LerParametros( "i" , &CondRetEsperada ) ;
+            if ( NumLidos != 1 )
+            {
+               return TST_CondRetParm ;
+            } /* if */
+
+            CondRetObtido = ARV_IniciaLista() ;
+
+			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
+                                    "Retorno errado ao tentar inicializar a lista de inteiros na folha." );
+
+
+         } /* fim ativa: Testar ARV Cria a lista */
+
+
+		 /* Testar ARV Insere inteiro na lista */
+
+         else if ( strcmp( ComandoTeste , INSERENALISTA_CMD ) == 0 )
+         {
+			NumLidos = LER_LerParametros( "ii" ,
+                               &ValorDado , &CondRetEsperada ) ;
+            if ( NumLidos != 2 )
+            {
+               return TST_CondRetParm ;
+            } /* if */
+
+            CondRetObtido = ARV_InsereValorNaLista( ValorDado ) ;
+
+			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
+                                    "Retorno errado ao inserir inteiro na lista de inteiros da folha." );
+
+
+         } /* fim ativa: Testar ARV Insere inteiro na lista */
+
+		
+		 /* Testar LST Imprime a lista */
+
+         else if ( strcmp( ComandoTeste , IMPRIMELISTA_CMD ) == 0 )
+         {
+			NumLidos = LER_LerParametros( "i" , &CondRetEsperada ) ;
+            if ( NumLidos != 1 )
+            {
+               return TST_CondRetParm ;
+            } /* if */
+
+            CondRetObtido = ARV_ImprimeLista( ) ;
+
+			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
+                                    "Retorno errado ao tentar imprimir a lista." );
+
+
+         } /* fim ativa: Testar LST Imprime na lista */
 
 
       /* Testar ARV Destruir árvore */

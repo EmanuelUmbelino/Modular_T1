@@ -76,8 +76,11 @@
          ARV_CondRetFaltouMemoria = 8 ,
                /* Faltou memória ao alocar dados */
 
-         ARV_CondRetCosturaNaoExiste = 9
+         ARV_CondRetCosturaNaoExiste = 9,
                /* Costura não foi gerada */
+		
+		 ARV_CondRetListaDeInteirosNaoExiste = 10
+               /* Lista de inteiros não foi gerada */
 
    } ARV_tpCondRet ;
 
