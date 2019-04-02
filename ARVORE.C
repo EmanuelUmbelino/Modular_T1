@@ -671,7 +671,11 @@
  
 /***********************************************************************
 *
-*  $FC Função: LST Cria a lista de inteiros para a folha
+*  $FC Função: ARV Cria a lista de inteiros para a folha
+*
+*  $ED Descrição da função
+*     Chama uma a função LST_CriarLista() da módulo LST e
+*	  após a ciração da lista são inseridos 3 nós nessa.
 *
 *  $EAE Assertivas de entradas esperadas
 *     pNo != NULL 
@@ -679,6 +683,7 @@
 *     pNo->pNoDir == NULL
 *
 ***********************************************************************/
+
    ARV_tpCondRet ARV_IniciaLista( )
    {
 	  int i;
@@ -708,44 +713,8 @@
 
 /***********************************************************************
 *
-*  $FC Função: LST Insere na lista de inteiros o valor passado à ela 
-*
-*  $EAE Assertivas de entradas esperadas
-*     pNo != NULL 
-*     pNo->pNoEsq == NULL
-*     pNo->pNoDir == NULL
-*     pNo->listaDeInteiros!=NULL
-*
-***********************************************************************/
-
-	ARV_tpCondRet ARV_InsereValorNaLista( int valor )
-	{
-	  LST* dado;
-	  printf("FLAG ENTROU\n");
-	  if ( pArvore == NULL )
-      {
-         return ARV_CondRetArvoreNaoExiste ;
-      } /* if */
-      if ( pArvore->pNoRaiz == NULL )
-      {
-         return ARV_CondRetArvoreVazia ;
-      } /* if */
-		
-	  printf("FLAG VAI INSERIR O VALOR %d\n",valor);
-
-	  //pArvore->pNoCorr->listaDeInteiros = LST_Insere(valor, pArvore->pNoCorr->listaDeInteiros);
-	  //dado  = pArvore->pNoCorr->listaDeInteiros;
-
-	  //printf("valor colocado -> %d",dado->data);
-	  
-	  return ARV_CondRetOK;
-	
-	}
-
-
-	/***********************************************************************
-*
 *  $FC Função: LST Imprime a lista de inteiros do nó corrente
+*			   através da chamada da função LST_Imprime() do módulo LST
 *
 *  $EAE Assertivas de entradas esperadas
 *     pNo != NULL 

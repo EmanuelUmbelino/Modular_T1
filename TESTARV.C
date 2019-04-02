@@ -65,9 +65,8 @@
 #define     OBTER_VAL_CMD       "=obter"
 #define     DESTROI_CMD         "=destruir"
 #define     COSTURAR_CMD        "=costura"
-#define     IMPRIMECOSTURA_CMD    "=imprimecostura"
+#define     IMPRIMECOSTURA_CMD  "=imprimecostura"
 #define		CRIALISTA_CMD		"=crialista"
-#define		INSERENALISTA_CMD	"=inserenalista"
 #define     IMPRIMELISTA_CMD    "=imprimelista"
 
 /*****  Código das funções exportadas pelo módulo  *****/
@@ -303,26 +302,6 @@
          } /* fim ativa: Testar ARV Cria a lista */
 
 
-		 /* Testar ARV Insere inteiro na lista */
-
-         else if ( strcmp( ComandoTeste , INSERENALISTA_CMD ) == 0 )
-         {
-			NumLidos = LER_LerParametros( "ii" ,
-                               &ValorDado , &CondRetEsperada ) ;
-            if ( NumLidos != 2 )
-            {
-               return TST_CondRetParm ;
-            } /* if */
-
-            CondRetObtido = ARV_InsereValorNaLista( ValorDado ) ;
-
-			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
-                                    "Retorno errado ao inserir inteiro na lista de inteiros da folha." );
-
-
-         } /* fim ativa: Testar ARV Insere inteiro na lista */
-
-		
 		 /* Testar LST Imprime a lista */
 
          else if ( strcmp( ComandoTeste , IMPRIMELISTA_CMD ) == 0 )
