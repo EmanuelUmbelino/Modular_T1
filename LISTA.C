@@ -41,7 +41,7 @@ LST * LST_Insere (int x, LST *p)
 	nova =(LST*)malloc(sizeof (LST));
 	if (nova == NULL) 
 	{
-		printf("VALOR NULL\n");
+		printf("Erro na alocação de memória para o nó da lista\n");
 		return NULL;
 	} /* if */
 	
@@ -61,11 +61,11 @@ void LST_Imprime (LST *le)
 {
 	if (le != NULL) 
 	{
-		printf ("%d-> ", le->data);
+		printf ("%d -> ", le->data);
 		LST_Imprime (le->prox);
 	} /* if */ 
 	else
 	{
-		printf("\n");
+		printf("NULL\n");
 	}/* else */
 }

@@ -9,17 +9,20 @@
 *
 *  Projeto: Disciplinas INF 1628 / 1301
 *  Gestor:  DI/PUC-Rio
-*  Autores: elu - Emanuel Lima Umbelino, jpk - João Pedro Kalil 
+*  Autores: elu - Emanuel Lima Umbelino
+*        jpk - João Pedro Kalil
+*        phs - Pedro Henrique Soares
 *
 *  $HA Histórico de evolução:
-*		Versão		Autores		   Data			Observações
-*		 1.25		elu/jpk		28/03/2019		Criadas função para imprimir a costura das folhas.
-*		 1.20		elu/jpk		28/03/2019		Criadas funções para ordenar a costura e a auxiliar para 
-*												trocar nó de posição com o próximo da costura.
-*		 1.10		elu/jpk		28/03/2019		Criadas funções para pegar folha mais à esquerda e para
-*												costurar folhas numa lista.
-*		 1.01		elu/jpk		25/03/2019		Colocado Ponteiro para Costura nos nós da Árvore
-*		 1.00		elu/jpk		25/03/2019		Inicializado projeto
+*     Versão      Autores        Data        Observações
+*      1.30    jpk/phs     02/04/2019     Criadas funções para inserir nó na lista encadeada das folhas.
+*      1.25    elu/jpk     28/03/2019     Criadas função para imprimir a costura das folhas.
+*      1.20    elu/jpk     28/03/2019     Criadas funções para ordenar a costura e a auxiliar para 
+*                                   trocar nó de posição com o próximo da costura.
+*      1.10    elu/jpk     28/03/2019     Criadas funções para pegar folha mais à esquerda e para
+*                                   costurar folhas numa lista.
+*      1.01    elu/jpk     25/03/2019     Colocado Ponteiro para Costura nos nós da Árvore
+*      1.00    elu/jpk     25/03/2019     Inicializado projeto
 *
 ***************************************************************************/
 
@@ -67,11 +70,11 @@
          char valor ;
                /* Valor do nó */
 
-         LST * listaDeInteiros;
-				/* Ponteiro para a cabeça da lista encadeada de inteiros que cada nó terá*/
+         LST * listaDeInteiros ;
+            /* Ponteiro para a cabeça da lista encadeada de inteiros que cada nó terá*/
 
-		 struct tgNoArvore * pNoCostura ;
-				/* Ponteiro para próximo nó da costura */
+       struct tgNoArvore * pNoCostura ;
+            /* Ponteiro para próximo nó da costura */
 
    } tpNoArvore ;
 
@@ -382,7 +385,7 @@
 *  ****/
    ARV_tpCondRet ARV_ImprimeCostura( void )
    {
-	  tpNoArvore * pNo ;
+     tpNoArvore * pNo ;
       if ( pArvore == NULL )
       {
          return ARV_CondRetArvoreNaoExiste ;
@@ -393,14 +396,14 @@
       } /* if */
 
        pNo = pArvore->pNoCostura ;
-	   printf("Costura: ");
-	   while ( pNo != NULL )
-	   {
-		   printf("%c -> ", pNo->valor) ;
-		   pNo = pNo->pNoCostura ;
-	   } /* while */
+      printf("Costura: ");
+      while ( pNo != NULL )
+      {
+         printf("%c -> ", pNo->valor) ;
+         pNo = pNo->pNoCostura ;
+      } /* while */
 
-	   printf("NULL\n") ;
+      printf("NULL\n") ;
 
       return ARV_CondRetOK ;
 
@@ -413,7 +416,7 @@
 *  ****/
    ARV_tpCondRet ARV_CosturarFolhas( void )
    {
-	   tpNoArvore **ref;
+      tpNoArvore **ref;
       if ( pArvore == NULL )
       {
          return ARV_CondRetArvoreNaoExiste ;
@@ -422,13 +425,77 @@
       {
          return ARV_CondRetArvoreVazia ;
       } /* if */
-	  ref = (tpNoArvore **)malloc(sizeof(tpNoArvore*));
-	  *ref = NULL;
+     ref = (tpNoArvore **)malloc(sizeof(tpNoArvore*));
+     *ref = NULL;
       CosturarFolhasAux( pArvore->pNoRaiz , ref ) ;
       pArvore->pNoCostura = PegaFolhaEsquerda() ;
       OrdenaCostura() ;
       return ARV_CondRetOK ;
 
+   }
+
+/***********************************************************************
+*
+*  $FC Função: ARV Insere nó na lista de inteiros das folhas
+*  ****/
+
+   ARV_tpCondRet ARV_InsereLista( int ValorParm )
+   {   
+     if ( pArvore == NULL )
+      {
+         return ARV_CondRetArvoreNaoExiste ;
+      } /* if */
+      if ( pArvore->pNoRaiz == NULL )
+      {
+         return ARV_CondRetArvoreVazia ;
+      } /* if */
+     if ( (pArvore->pNoCorr->pNoEsq == NULL) && (pArvore->pNoCorr->pNoDir == NULL) )
+     {
+       if ((pArvore->pNoCorr->listaDeInteiros = LST_Insere( ValorParm, pArvore->pNoCorr->listaDeInteiros)) != NULL)
+       {
+         return ARV_CondRetOK ;
+       } /* if */
+       else
+       {
+         return ARV_CondRetFaltouMemoria ;
+       } /* else */
+     } /* if */
+     
+     return ARV_CondRetNaoEhFolha ;
+   } /* Fim função: ARV Troca nó de posição */
+
+
+/***********************************************************************
+*
+*  $FC Função: LST Imprime a lista de inteiros do nó corrente
+*           através da chamada da função LST_Imprime() do módulo LST
+*
+*  $EAE Assertivas de entradas esperadas
+*     pNo != NULL 
+*     pNo->pNoEsq == NULL
+*     pNo->pNoDir == NULL
+*     pNo->listaDeInteiros!=NULL
+*
+***********************************************************************/
+
+   ARV_tpCondRet ARV_ImprimeLista(  )
+   {
+     if ( pArvore == NULL )
+      {
+         return ARV_CondRetArvoreNaoExiste ;
+      } /* if */
+      if ( pArvore->pNoRaiz == NULL )
+      {
+         return ARV_CondRetArvoreVazia ;
+      } /* if */
+     if (pArvore->pNoCorr->listaDeInteiros == NULL)
+     {
+       return ARV_CondRetListaDeInteirosNaoExiste;
+     } /* if */
+     printf("Lista de inteiros do no %c -> ",pArvore->pNoCorr->valor);
+     LST_Imprime(pArvore->pNoCorr->listaDeInteiros);
+     return ARV_CondRetOK;
+   
    }
 
 
@@ -461,6 +528,7 @@
       pNo->pNoPai = NULL ;
       pNo->pNoEsq = NULL ;
       pNo->pNoDir = NULL ;
+     pNo->listaDeInteiros = NULL ;
       pNo->valor  = ValorParm ;
       return pNo ;
 
@@ -607,7 +675,7 @@
       tpNoArvore * ant ;
       tpNoArvore * atual = pArvore->pNoCostura ;
 
-	   for ( tam = 0; atual != NULL; tam ++, atual = atual->pNoCostura ) ;
+      for ( tam = 0; atual != NULL; tam ++, atual = atual->pNoCostura ) ;
 
       do
       {
@@ -669,80 +737,6 @@
       return pNo ;
    } /* Fim função: ARV Troca nó de posição */
  
-/***********************************************************************
-*
-*  $FC Função: ARV Cria a lista de inteiros para a folha
-*
-*  $ED Descrição da função
-*     Chama uma a função LST_CriarLista() da módulo LST e
-*	  após a ciração da lista são inseridos 3 nós nessa.
-*
-*  $EAE Assertivas de entradas esperadas
-*     pNo != NULL 
-*     pNo->pNoEsq == NULL
-*     pNo->pNoDir == NULL
-*
-***********************************************************************/
-
-   ARV_tpCondRet ARV_IniciaLista( )
-   {
-	  int i;
-	   pArvore->pNoCorr->listaDeInteiros = LST_CriarLista();
-	  
-	   pArvore->pNoCorr->listaDeInteiros = LST_Insere(3,pArvore->pNoCorr->listaDeInteiros);
-	   pArvore->pNoCorr->listaDeInteiros = LST_Insere(1,pArvore->pNoCorr->listaDeInteiros);
-	   pArvore->pNoCorr->listaDeInteiros = LST_Insere(2,pArvore->pNoCorr->listaDeInteiros);
-		   
-	   
-	  if ( pArvore == NULL )
-      {
-         return ARV_CondRetArvoreNaoExiste ;
-      } /* if */
-      if ( pArvore->pNoRaiz == NULL )
-      {
-         return ARV_CondRetArvoreVazia ;
-      } /* if */
-	  if (pArvore->pNoCorr->listaDeInteiros != NULL)
-	  {
-		 return ARV_CondRetOK;
-	  } 
-
-
-   } /* Fim função: ARV Troca nó de posição */
-
-
-/***********************************************************************
-*
-*  $FC Função: LST Imprime a lista de inteiros do nó corrente
-*			   através da chamada da função LST_Imprime() do módulo LST
-*
-*  $EAE Assertivas de entradas esperadas
-*     pNo != NULL 
-*     pNo->pNoEsq == NULL
-*     pNo->pNoDir == NULL
-*     pNo->listaDeInteiros!=NULL
-*
-***********************************************************************/
-
-	ARV_tpCondRet ARV_ImprimeLista(  )
-	{
-	  if ( pArvore == NULL )
-      {
-         return ARV_CondRetArvoreNaoExiste ;
-      } /* if */
-      if ( pArvore->pNoRaiz == NULL )
-      {
-         return ARV_CondRetArvoreVazia ;
-      } /* if */
-	  if (pArvore->pNoCorr->listaDeInteiros == NULL)
-	  {
-		 return ARV_CondRetListaDeInteirosNaoExiste;
-	  } /* if */
-	  printf("Lista de inteiros do no %c -> ",pArvore->pNoCorr->valor);
-	  LST_Imprime(pArvore->pNoCorr->listaDeInteiros);
-	  return ARV_CondRetOK;
-	
-	}
 
 /********** Fim do módulo de implementação: Módulo árvore **********/
 

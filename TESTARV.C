@@ -41,6 +41,13 @@
 *                   - chama a função ARV_ObterValorCorr( ) e compara
 *                     o valor retornado com o valor <Char>
 *     "=destroi"    - chama a função ARV_DestruirArvore( )
+*    "=costura"   - chama a função ARV_CosturarFolhas( )
+*    "=imprimecostura"
+*              - chama a função ARV_ImprimeCostura( )
+*    "=insnolst" <Int>
+*              - chama a função ARV_InsereLista( <Int> )
+*    "=imprimelista"
+*              - chama a função ARV_ImprimeLista()
 *
 ***************************************************************************/
 
@@ -51,7 +58,7 @@
 
 #include    "generico.h"
 #include    "lerparm.h"
-#include	"lista.h"
+#include    "lista.h"
 #include    "arvore.h"
 
 /* Tabela dos nomes dos comandos de teste específicos */
@@ -66,7 +73,7 @@
 #define     DESTROI_CMD         "=destruir"
 #define     COSTURAR_CMD        "=costura"
 #define     IMPRIMECOSTURA_CMD  "=imprimecostura"
-#define		CRIALISTA_CMD		"=crialista"
+#define     CRIALISTA_CMD       "=insnolst"
 #define     IMPRIMELISTA_CMD    "=imprimelista"
 
 /*****  Código das funções exportadas pelo módulo  *****/
@@ -98,6 +105,7 @@
       char ValorEsperado = '?'  ;
       char ValorObtido   = '!'  ;
       char ValorDado     = '\0' ;
+     int ValorDadoInt    = 0;
 
       int  NumLidos = -1 ;
 
@@ -244,69 +252,70 @@
 
          } /* fim ativa: Testar ARV Obter valor corrente */
 
-		 /* Testar ARV Costurar árvore */
+       /* Testar ARV Costurar árvore */
 
          else if ( strcmp( ComandoTeste , COSTURAR_CMD ) == 0 )
          {
-			NumLidos = LER_LerParametros( "i" ,
+         NumLidos = LER_LerParametros( "i" ,
                                &CondRetEsperada ) ;
             if ( NumLidos != 1 )
             {
                return TST_CondRetParm ;
             } /* if */
-			
-			CondRetObtido = ARV_CosturarFolhas();
+         
+         CondRetObtido = ARV_CosturarFolhas();
 
-			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
+         return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao costurar folhas." );
 
 
          } /* fim ativa: Testar ARV Costurar árvore */
 
-		 /* Testar ARV Imprime Costura */
+       /* Testar ARV Imprime Costura */
 
          else if ( strcmp( ComandoTeste , IMPRIMECOSTURA_CMD ) == 0 )
          {
-			NumLidos = LER_LerParametros( "i" ,
+         NumLidos = LER_LerParametros( "i" ,
                                &CondRetEsperada ) ;
             if ( NumLidos != 1 )
             {
                return TST_CondRetParm ;
             } /* if */
 
-			CondRetObtido = ARV_ImprimeCostura();
+         CondRetObtido = ARV_ImprimeCostura();
 
-			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
+         return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao imprimir costura." );
 
 
          } /* fim ativa: Testar ARV Imprime Costura */
 
-		
-		 /* Testar ARV Cria a lista */
+      
+       /* Testar ARV Cria a lista */
 
          else if ( strcmp( ComandoTeste , CRIALISTA_CMD ) == 0 )
          {
-			NumLidos = LER_LerParametros( "i" , &CondRetEsperada ) ;
-            if ( NumLidos != 1 )
+         NumLidos = LER_LerParametros( "ii" , &ValorDadoInt, &CondRetEsperada ) ;
+
+            if ( NumLidos != 2 )
             {
                return TST_CondRetParm ;
             } /* if */
 
-            CondRetObtido = ARV_IniciaLista() ;
+            CondRetObtido = ARV_InsereLista( ValorDadoInt ) ;
 
-			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
+         return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao tentar inicializar a lista de inteiros na folha." );
 
 
          } /* fim ativa: Testar ARV Cria a lista */
 
 
-		 /* Testar LST Imprime a lista */
+       /* Testar LST Imprime a lista */
 
          else if ( strcmp( ComandoTeste , IMPRIMELISTA_CMD ) == 0 )
          {
-			NumLidos = LER_LerParametros( "i" , &CondRetEsperada ) ;
+         NumLidos = LER_LerParametros( "i" , &CondRetEsperada ) ;
             if ( NumLidos != 1 )
             {
                return TST_CondRetParm ;
@@ -314,7 +323,7 @@
 
             CondRetObtido = ARV_ImprimeLista( ) ;
 
-			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
+         return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao tentar imprimir a lista." );
 
 
