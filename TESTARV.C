@@ -19,7 +19,7 @@
 *       1.00   avs   15/08/2001 Início do desenvolvimento
 *
 *  $ED Descrição do módulo
-*     Este mÇodulo contém as funções específicas para o teste do
+*     Este módulo contém as funções específicas para o teste do
 *     módulo árvore. Ilustra como redigir um interpretador de comandos
 *     de teste específicos utilizando o arcabouço de teste para C.
 *
@@ -27,13 +27,13 @@
 *     Comandos de teste específicos para testar o módulo árvore:
 *
 *     =criar        - chama a função ARV_CriarArvore( )
-*     =insdir <Char>
-*                   - chama a função ARV_InserirDireita( <Char> )
+*     =insdir <Char> <Int> <Int>
+*                   - chama a função ARV_InserirDireita( <Char> , <Int> , <Int> )
 *                     Obs. notação: <Char>  é o valor do parâmetro
 *                     que se encontra no comando de teste.
 *
-*     "=insesq" <Char>
-*                   - chama a função ARV_InserirEsquerda( <Char> )
+*     "=insesq" <Char> <Int> <Int>
+*                   - chama a função ARV_InserirEsquerda( <Char> , <Int> , <Int> )
 *     "=irpai"      - chama a função ARV_IrPai( )
 *     "=iresq"      - chama a função ARV_IrEsquerda( )
 *     "=irdir"      - chama a função ARV_IrDireita( )
@@ -41,13 +41,11 @@
 *                   - chama a função ARV_ObterValorCorr( ) e compara
 *                     o valor retornado com o valor <Char>
 *     "=destroi"    - chama a função ARV_DestruirArvore( )
-*    "=costura"   - chama a função ARV_CosturarFolhas( )
-*    "=imprimecostura"
-*              - chama a função ARV_ImprimeCostura( )
-*    "=insnolst" <Int>
-*              - chama a função ARV_InsereLista( <Int> )
-*    "=imprimelista"
-*              - chama a função ARV_ImprimeLista()
+*     "=costura"    - chama a função ARV_CosturarFolhas( )
+*     "=imprimecostura"
+*                   - chama a função ARV_ImprimeCostura( )
+*     "=imprimelista"
+*                   - chama a função ARV_ImprimeLista()
 *
 ***************************************************************************/
 
@@ -73,7 +71,6 @@
 #define     DESTROI_CMD         "=destruir"
 #define     COSTURAR_CMD        "=costura"
 #define     IMPRIMECOSTURA_CMD  "=imprimecostura"
-#define     CRIALISTA_CMD       "=insnolst"
 #define     IMPRIMELISTA_CMD    "=imprimelista"
 
 /*****  Código das funções exportadas pelo módulo  *****/
@@ -95,255 +92,233 @@
 *
 ***********************************************************************/
 
-   TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
-   {
+	TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
+	{
 
-      ARV_tpCondRet CondRetObtido   = ARV_CondRetOK ;
-      ARV_tpCondRet CondRetEsperada = ARV_CondRetFaltouMemoria ;
-                                      /* inicializa para qualquer coisa */
+		ARV_tpCondRet CondRetObtido   = ARV_CondRetOK ;
+		ARV_tpCondRet CondRetEsperada = ARV_CondRetFaltouMemoria ;
+												  /* inicializa para qualquer coisa */
 
-      char ValorEsperado = '?'  ;
-      char ValorObtido   = '!'  ;
-      char ValorDado     = '\0' ;
-     int ValorDadoInt    = 0;
+		char ValorEsperado 	= '?' ;
+		char ValorObtido 		= '!' ;
+		char ValorDado 		= '\0' ;
+		int ValorDadoInt 		= 0 ;
+		int ValorDadoInt2 	= 0 ;
 
-      int  NumLidos = -1 ;
+		int  NumLidos = -1 ;
 
-      TST_tpCondRet Ret ;
+		TST_tpCondRet Ret ;
 
-      /* Testar ARV Criar árvore */
+		/* Testar ARV Criar árvore */
 
-         if ( strcmp( ComandoTeste , CRIAR_ARV_CMD ) == 0 )
-         {
+			if ( strcmp( ComandoTeste , CRIAR_ARV_CMD ) == 0 )
+			{
 
-            NumLidos = LER_LerParametros( "i" ,
-                               &CondRetEsperada ) ;
-            if ( NumLidos != 1 )
-            {
-               return TST_CondRetParm ;
-            } /* if */
+				NumLidos = LER_LerParametros( "i" ,
+										 &CondRetEsperada ) ;
+				if ( NumLidos != 1 )
+				{
+					return TST_CondRetParm ;
+				} /* if */
 
-            CondRetObtido = ARV_CriarArvore( ) ;
+				CondRetObtido = ARV_CriarArvore( ) ;
 
-            return TST_CompararInt( CondRetEsperada , CondRetObtido ,
-                                    "Retorno errado ao criar árvore." );
+				return TST_CompararInt( CondRetEsperada , CondRetObtido ,
+												"Retorno errado ao criar árvore." ) ;
 
-         } /* fim ativa: Testar ARV Criar árvore */
+			} /* fim ativa: Testar ARV Criar árvore */
 
-      /* Testar ARV Adicionar filho à direita */
+		/* Testar ARV Adicionar filho à direita */
 
-         else if ( strcmp( ComandoTeste , INS_DIR_CMD ) == 0 )
-         {
+			else if ( strcmp( ComandoTeste , INS_DIR_CMD ) == 0 )
+			{
 
-            NumLidos = LER_LerParametros( "ci" ,
-                               &ValorDado , &CondRetEsperada ) ;
-            if ( NumLidos != 2 )
-            {
-               return TST_CondRetParm ;
-            } /* if */
+				NumLidos = LER_LerParametros( "ciii" ,
+										 &ValorDado , &ValorDadoInt , &ValorDadoInt2 , &CondRetEsperada ) ;
+				if ( NumLidos != 4 )
+				{
+					return TST_CondRetParm ;
+				} /* if */
 
-            CondRetObtido = ARV_InserirDireita( ValorDado ) ;
+				CondRetObtido = ARV_InserirDireita( ValorDado , ValorDadoInt , ValorDadoInt2 ) ;
 
-            return TST_CompararInt( CondRetEsperada , CondRetObtido ,
-                                    "Retorno errado inserir àa direita." );
+				return TST_CompararInt( CondRetEsperada , CondRetObtido ,
+												"Retorno errado inserir à direita." ) ;
 
-         } /* fim ativa: Testar ARV Adicionar filho à direita */
+			} /* fim ativa: Testar ARV Adicionar filho à direita */
 
-      /* Testar ARV Adicionar filho à esquerda */
+		/* Testar ARV Adicionar filho à esquerda */
 
-         else if ( strcmp( ComandoTeste , INS_ESQ_CMD ) == 0 )
-         {
+			else if ( strcmp( ComandoTeste , INS_ESQ_CMD ) == 0 )
+			{
 
-            NumLidos = LER_LerParametros( "ci" ,
-                               &ValorDado , &CondRetEsperada ) ;
-            if ( NumLidos != 2 )
-            {
-               return TST_CondRetParm ;
-            } /* if */
+				NumLidos = LER_LerParametros( "ciii" ,
+										 &ValorDado , &ValorDadoInt , &ValorDadoInt2 , &CondRetEsperada ) ;
+				if ( NumLidos != 4 )
+				{
+					return TST_CondRetParm ;
+				} /* if */
 
-            CondRetObtido = ARV_InserirEsquerda( ValorDado ) ;
+				CondRetObtido = ARV_InserirEsquerda( ValorDado , ValorDadoInt , ValorDadoInt2 ) ;
 
-            return TST_CompararInt( CondRetEsperada , CondRetObtido ,
-                                    "Retorno errado ao inserir à esquerda." );
+				return TST_CompararInt( CondRetEsperada , CondRetObtido ,
+												"Retorno errado ao inserir à esquerda." ) ;
 
-         } /* fim ativa: Testar ARV Adicionar filho à esquerda */
+			} /* fim ativa: Testar ARV Adicionar filho à esquerda */
 
-      /* Testar ARV Ir para nó pai */
+		/* Testar ARV Ir para nó pai */
 
-         else if ( strcmp( ComandoTeste , IR_PAI_CMD ) == 0 )
-         {
+			else if ( strcmp( ComandoTeste , IR_PAI_CMD ) == 0 )
+			{
 
-            NumLidos = LER_LerParametros( "i" ,
-                               &CondRetEsperada ) ;
-            if ( NumLidos != 1 )
-            {
-               return TST_CondRetParm ;
-            } /* if */
+				NumLidos = LER_LerParametros( "i" ,
+										 &CondRetEsperada ) ;
+				if ( NumLidos != 1 )
+				{
+					return TST_CondRetParm ;
+				} /* if */
 
-            CondRetObtido = ARV_IrPai( ) ;
+				CondRetObtido = ARV_IrPai( ) ;
 
-            return TST_CompararInt( CondRetEsperada , CondRetObtido ,
-                                    "Retorno errado ao ir para pai." );
+				return TST_CompararInt( CondRetEsperada , CondRetObtido ,
+												"Retorno errado ao ir para pai." ) ;
 
-         } /* fim ativa: Testar ARV Ir para nó pai */
+			} /* fim ativa: Testar ARV Ir para nó pai */
 
-      /* Testar ARV Ir para nó à esquerda */
+		/* Testar ARV Ir para nó à esquerda */
 
-         else if ( strcmp( ComandoTeste , IR_ESQ_CMD ) == 0 )
-         {
+			else if ( strcmp( ComandoTeste , IR_ESQ_CMD ) == 0 )
+			{
 
-            NumLidos = LER_LerParametros( "i" ,
-                               &CondRetEsperada ) ;
-            if ( NumLidos != 1 )
-            {
-               return TST_CondRetParm ;
-            } /* if */
+				NumLidos = LER_LerParametros( "i" ,
+										 &CondRetEsperada ) ;
+				if ( NumLidos != 1 )
+				{
+					return TST_CondRetParm ;
+				} /* if */
 
-            CondRetObtido = ARV_IrNoEsquerda( ) ;
+				CondRetObtido = ARV_IrNoEsquerda( ) ;
 
-            return TST_CompararInt( CondRetEsperada , CondRetObtido ,
-                                    "Retorno errado ao ir para esquerda." );
+				return TST_CompararInt( CondRetEsperada , CondRetObtido ,
+												"Retorno errado ao ir para esquerda." ) ;
 
-         } /* fim ativa: Testar ARV Ir para nó à esquerda */
+			} /* fim ativa: Testar ARV Ir para nó à esquerda */
 
-      /* Testar ARV Ir para nó à direita */
+		/* Testar ARV Ir para nó à direita */
 
-         else if ( strcmp( ComandoTeste , IR_DIR_CMD ) == 0 )
-         {
+			else if ( strcmp( ComandoTeste , IR_DIR_CMD ) == 0 )
+			{
 
-            NumLidos = LER_LerParametros( "i" ,
-                               &CondRetEsperada ) ;
-            if ( NumLidos != 1 )
-            {
-               return TST_CondRetParm ;
-            } /* if */
+				NumLidos = LER_LerParametros( "i" ,
+										 &CondRetEsperada ) ;
+				if ( NumLidos != 1 )
+				{
+					return TST_CondRetParm ;
+				} /* if */
 
-            CondRetObtido = ARV_IrNoDireita( ) ;
+				CondRetObtido = ARV_IrNoDireita( ) ;
 
-            return TST_CompararInt( CondRetEsperada , CondRetObtido ,
-                                    "Retorno errado ao ir para direita." );
+				return TST_CompararInt( CondRetEsperada , CondRetObtido ,
+												"Retorno errado ao ir para direita." ) ;
 
-         } /* fim ativa: Testar ARV Ir para nó à direita */
+			} /* fim ativa: Testar ARV Ir para nó à direita */
 
-      /* Testar ARV Obter valor corrente */
+		/* Testar ARV Obter valor corrente */
 
-         else if ( strcmp( ComandoTeste , OBTER_VAL_CMD ) == 0 )
-         {
+			else if ( strcmp( ComandoTeste , OBTER_VAL_CMD ) == 0 )
+			{
 
-            NumLidos = LER_LerParametros( "ci" ,
-                               &ValorEsperado , &CondRetEsperada ) ;
-            if ( NumLidos != 2 )
-            {
-               return TST_CondRetParm ;
-            } /* if */
+				NumLidos = LER_LerParametros( "ci" ,
+										 &ValorEsperado , &CondRetEsperada ) ;
+				if ( NumLidos != 2 )
+				{
+					return TST_CondRetParm ;
+				} /* if */
 
-            CondRetObtido = ARV_ObterValorCorr( &ValorObtido ) ;
+				CondRetObtido = ARV_ObterValorCorr( &ValorObtido ) ;
 
-            Ret = TST_CompararInt( CondRetEsperada , CondRetObtido ,
-                                   "Retorno errado ao obter valor corrente." );
+				Ret = TST_CompararInt( CondRetEsperada , CondRetObtido ,
+											  "Retorno errado ao obter valor corrente." ) ;
 
-            if ( Ret != TST_CondRetOK )
-            {
-               return Ret ;
-            } /* if */
+				if ( Ret != TST_CondRetOK )
+				{
+					return Ret ;
+				} /* if */
 
-            return TST_CompararChar( ValorEsperado , ValorObtido ,
-                                     "Conteúdo do nó está errado." ) ;
+				return TST_CompararChar( ValorEsperado , ValorObtido ,
+												 "Conteúdo do nó está errado." ) ;
 
-         } /* fim ativa: Testar ARV Obter valor corrente */
+			} /* fim ativa: Testar ARV Obter valor corrente */
 
-       /* Testar ARV Costurar árvore */
+		 /* Testar ARV Costurar folhas da árvore */
 
-         else if ( strcmp( ComandoTeste , COSTURAR_CMD ) == 0 )
-         {
-         NumLidos = LER_LerParametros( "i" ,
-                               &CondRetEsperada ) ;
-            if ( NumLidos != 1 )
-            {
-               return TST_CondRetParm ;
-            } /* if */
-         
-         CondRetObtido = ARV_CosturarFolhas();
+			else if ( strcmp( ComandoTeste , COSTURAR_CMD ) == 0 )
+			{
+				NumLidos = LER_LerParametros( "i" ,
+										 &CondRetEsperada ) ;
+				if ( NumLidos != 1 )
+				{
+					return TST_CondRetParm ;
+				} /* if */
+			
+				CondRetObtido = ARV_CosturarFolhas() ;
 
-         return TST_CompararInt( CondRetEsperada , CondRetObtido ,
-                                    "Retorno errado ao costurar folhas." );
+				return TST_CompararInt( CondRetEsperada , CondRetObtido ,
+												"Retorno errado ao costurar folhas." ) ;
 
+			} /* fim ativa: Testar ARV Costurar folhas da árvore */
 
-         } /* fim ativa: Testar ARV Costurar árvore */
+		 /* Testar ARV Imprime Costura */
 
-       /* Testar ARV Imprime Costura */
+			else if ( strcmp( ComandoTeste , IMPRIMECOSTURA_CMD ) == 0 )
+			{
+				NumLidos = LER_LerParametros( "i" ,
+										 &CondRetEsperada ) ;
+				if ( NumLidos != 1 )
+				{
+					return TST_CondRetParm ;
+				} /* if */
 
-         else if ( strcmp( ComandoTeste , IMPRIMECOSTURA_CMD ) == 0 )
-         {
-         NumLidos = LER_LerParametros( "i" ,
-                               &CondRetEsperada ) ;
-            if ( NumLidos != 1 )
-            {
-               return TST_CondRetParm ;
-            } /* if */
+				CondRetObtido = ARV_ImprimeCostura() ;
 
-         CondRetObtido = ARV_ImprimeCostura();
+				return TST_CompararInt( CondRetEsperada , CondRetObtido ,
+												"Retorno errado ao imprimir costura." ) ;
 
-         return TST_CompararInt( CondRetEsperada , CondRetObtido ,
-                                    "Retorno errado ao imprimir costura." );
+			} /* fim ativa: Testar ARV Imprime Costura */
 
+		 /* Testar ARV Imprime lista de inteiros */
 
-         } /* fim ativa: Testar ARV Imprime Costura */
+			else if ( strcmp( ComandoTeste , IMPRIMELISTA_CMD ) == 0 )
+			{
+				NumLidos = LER_LerParametros( "i" ,
+										 &CondRetEsperada ) ;
+				if ( NumLidos != 1 )
+				{
+					return TST_CondRetParm ;
+				} /* if */
 
-      
-       /* Testar ARV Cria a lista */
+				CondRetObtido = ARV_ImprimeLista( ) ;
 
-         else if ( strcmp( ComandoTeste , CRIALISTA_CMD ) == 0 )
-         {
-         NumLidos = LER_LerParametros( "ii" , &ValorDadoInt, &CondRetEsperada ) ;
+				return TST_CompararInt( CondRetEsperada , CondRetObtido ,
+												"Retorno errado ao imprimir a lista." ) ;
 
-            if ( NumLidos != 2 )
-            {
-               return TST_CondRetParm ;
-            } /* if */
+			} /* fim ativa: Testar ARV Imprime lista de inteiros */
 
-            CondRetObtido = ARV_InsereLista( ValorDadoInt ) ;
 
-         return TST_CompararInt( CondRetEsperada , CondRetObtido ,
-                                    "Retorno errado ao tentar inicializar a lista de inteiros na folha." );
+		/* Testar ARV Destruir árvore */
 
+			else if ( strcmp( ComandoTeste , DESTROI_CMD ) == 0 )
+			{
 
-         } /* fim ativa: Testar ARV Cria a lista */
+				ARV_DestruirArvore( ) ;
 
+				return TST_CondRetOK ;
 
-       /* Testar LST Imprime a lista */
+			} /* fim ativa: Testar ARV Destruir árvore */
 
-         else if ( strcmp( ComandoTeste , IMPRIMELISTA_CMD ) == 0 )
-         {
-         NumLidos = LER_LerParametros( "i" , &CondRetEsperada ) ;
-            if ( NumLidos != 1 )
-            {
-               return TST_CondRetParm ;
-            } /* if */
+		return TST_CondRetNaoConhec ;
 
-            CondRetObtido = ARV_ImprimeLista( ) ;
-
-         return TST_CompararInt( CondRetEsperada , CondRetObtido ,
-                                    "Retorno errado ao tentar imprimir a lista." );
-
-
-         } /* fim ativa: Testar LST Imprime na lista */
-
-
-      /* Testar ARV Destruir árvore */
-
-         else if ( strcmp( ComandoTeste , DESTROI_CMD ) == 0 )
-         {
-
-            ARV_DestruirArvore( ) ;
-
-            return TST_CondRetOK ;
-
-         } /* fim ativa: Testar ARV Destruir árvore */
-
-      return TST_CondRetNaoConhec ;
-
-   } /* Fim função: TARV Efetuar operações de teste específicas para árvore */
+	} /* Fim função: TARV Efetuar operações de teste específicas para árvore */
 
 /********** Fim do módulo de implementação: Módulo de teste específico **********/
 

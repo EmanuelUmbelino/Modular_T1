@@ -1,0 +1,95 @@
+Trabalho 1 de Programação Modular
+
+------- Grupo -------
+
+ELU 	Emanuel Lima Umbelino			-	1713090
+JPK		João Pedro Kalil Coelho Lyra	-	1711183
+PHS		Pedro Henrique Aragão Soares	-	1713186
+
+------- Descrição -------
+
+Este texto descreve como utilizar o executavel para testar os arquivos .script gerando saídas compatíveis
+O programa executa os comandos dados no arquivo .script
+Com os comandos pode-se criar uma árvore binária e destrui-la
+Além disso, é possível inserir nós na árvore, andar por eles e obter seus valores
+Para inserir um nó na árvore é necessário colocar dois números, que serão usados para uma lista de números que o nó possui
+Também é possível imprimir essa lista de números do nó
+Enfim, também é possível criar uma costura entre as folhas da árvore e imprimir a costura
+
+------- Instruções -------
+
+-- Execução Por CMD --
+
+1) Extraia todas as pastas do .zip em um diretório
+
+2) Abra o programa CMD do windows
+
+	2.1) Pressione Windows+R
+	2.2) Digite CMD
+	2.3) Pressione enter
+
+3) Vá pelo CMD para a pasta "Executavel"
+
+	3.1) Copie o caminho
+	3.2) Digite no CMD "cd caminho"
+		3.2.0) Exemplo: cd 'C:\Nova Pasta\Executavel'
+	3.3) Pressione enter
+
+4) Execute o trabalho, escolhendo o script de teste e o local de saída
+
+	4.1) Digite no CMD "trab1-1  /s..\scripts\NOMETESTE.script >..\saidas\NOMESAIDA.log"
+	4.2) Substitua NOMETESTE pelo nome do arquivo de teste que deseja executar
+	4.3) Substitua NOMESAIDA pelo nome do arquivo de saida que deseja gerar
+	4.4) Pressione enter
+
+5) Para visualizar o resultado, entre na pasta saidas e abra o log gerado
+
+
+-- Execução pelo batch --
+
+1) Extraia todas as pastas do .zip em um diretório
+
+2) Entre nesse diretório e abra a pasta executavel
+
+3) Execute o arquivo .bat referente ao arquivo de teste escolhido
+
+	3.1) Exemplo: Ao executar o "testecompleto.bat", executa o teste "testecompleto.script"
+
+4) Para visualizar o resultado, entre na pasta saidas e abra o log gerado
+
+	4.1) Exemplo: Ao executar o "testecompleto.bat", gera o log "testecompleto.log"
+
+
+------- Diretórios e arquivos -------
+
+-- Diretórios --
+
+
+Executavel - contém o arquivo .exe e o arquivo .bat, para execução do programa
+
+Modulos Fonte - contém os módulos usados para gerar o executavel
+
+Relatorios - contém os relatórios de cada membro do grupo
+
+Saidas - contém as saídas geradas pela execução do .bat
+
+Scripts - contém os scripts de teste para testar o programa
+
+
+-- Arquivos --
+
+ARVORE.C, ARVORE.H - são os módulos de implementação e de definição do módulo de edição e acesso a árvores binárias. É a base do trabalho. Além dessas funções, é possível criar e imprimir uma costura das folhas ordenada alfabéticamente.
+
+LISTA.C, LISTA.H - são os módulos de implementação e de definição do módulo lista. É apenas utilizado pelo módulo arvore para criar a lista de números nos nós.
+
+TESTARV.C - é o módulo de implementação do módulo de teste específico do módulo editor de árvore ARVORE. Não faz uso da instrumentação e trata de uma única árvore.
+
+*.bat - são os arquivos contendo os códigos para o prompt de comando do windows, para facilitar a execução do projeto.
+
+*.script - são os arquivos contendo as diretivas de teste para testar o módulo árvore.
+
+*.log - são os arquivos gerados ao realizar um teste. Eles contém o laudo do teste.
+
+RELATORIO-*.txt - são os relatórios sobre as horas trabalhadas feitos pelos componentes do grupo.
+
+LEIAME.txt - é este arquivo, no qual contem explicações sobre como executar os teste, sobre seu objetivo e a organização das pastas.

@@ -5,15 +5,32 @@
 *  Arquivo gerado:              LISTA.H
 *  Letras identificadoras:      LST
 *
+*  Projeto: Disciplina INF 1301
+*  Gestor:  DI/PUC-Rio
+*  Autores: elu - Emanuel Lima Umbelino
+*        jpk - João Pedro Kalil
+*        phs - Pedro Henrique Soares
+*
 *  $ED Descrição do módulo
 *     Este módulo implementa um conjunto simples de funções para criar e
 *     explorar uma lista encadeada.
 *     Ao iniciar a execução do programa não existe lista.
-*     A lista poderá estar vazia. Neste caso o primeiro nó será NULL
+*     A lista poderá estar vazia. Neste caso o primeiro nó será NULL.
 *
 ***************************************************************************/
 
-typedef struct lista LST;
+
+/***********************************************************************
+*
+*  $TC Tipo de dados: LST Descritor do nó da lista
+*
+*
+*  $ED Descrição do tipo
+*     Descreve a organização do nó
+*
+***********************************************************************/
+
+typedef struct lista LST ;
 
 
 /***********************************************************************
@@ -27,21 +44,25 @@ typedef struct lista LST;
 *     LST
 *
 ***********************************************************************/
-	LST * LST_CriarLista ();
+
+	LST * LST_CriarLista ( void ) ;
+
 
 /***********************************************************************
 *
 *  $FC Função: LST Insere
 *
 *  $EP Parâmetros
-*     $P ValorParm - valor a ser inserido na lista
+*     $P x - valor a ser inserido na lista
+*     $P p - ponteiro de ponteiro para lista
 *
 *  $ED Descrição da função
 *	  Função que insere o novo valor no início da lista.
 *
 ***********************************************************************/
 	
-	LST * LST_Insere(int x, LST *p);
+	void LST_Insere ( int x, LST **p ) ;
+
 
 /***********************************************************************
 *
@@ -53,5 +74,5 @@ typedef struct lista LST;
 *
 ***********************************************************************/
 	
-	void LST_Imprime (LST *le);
+	void LST_Imprime ( LST *le ) ;
 

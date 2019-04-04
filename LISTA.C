@@ -1,13 +1,37 @@
+/***************************************************************************
+*  $MCI Módulo de implementação: Módulo lista
+*
+*  Arquivo gerado:              LISTA.C
+*  Letras identificadoras:      LST
+*
+*  Projeto: Disciplina INF 1301
+*  Autores: elu - Emanuel Lima Umbelino
+*        jpk - João Pedro Kalil
+*        phs - Pedro Henrique Soares
+*
+***************************************************************************/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "LISTA.H"
 
 
-struct lista 
-{
-      int data; 
-      LST *prox;
-};
+/***********************************************************************
+*
+*  $TC Tipo de dados: LST Descritor do nó da lista
+*
+*
+*  $ED Descrição do tipo
+*     Descreve a organização do nó
+*
+***********************************************************************/
+
+	struct lista 
+	{
+			int data ; 
+			LST *prox ;
+	} ;
+
 
 /***************************************************************************
 *
@@ -19,10 +43,11 @@ struct lista
 *
 ***************************************************************************/
 
-LST * LST_CriarLista ()
-{
-	return NULL;
-}
+	LST * LST_CriarLista ( void )
+	{
+		return NULL ;
+	}
+
 
 /***************************************************************************
 *
@@ -34,38 +59,43 @@ LST * LST_CriarLista ()
 *  
 ***************************************************************************/
 
-LST * LST_Insere (int x, LST *p)
-{
-	LST *nova;
-	
-	nova =(LST*)malloc(sizeof (LST));
-	if (nova == NULL) 
+	void LST_Insere ( int x, LST ** p )
 	{
-		printf("Erro na alocação de memória para o nó da lista\n");
-		return NULL;
-	} /* if */
-	
-	nova->data = x;
-	nova->prox = p;
-	p = nova;
-	return p ;
-}
+		LST *nova ;
+		
+		nova = ( LST * ) malloc( sizeof( LST )) ;
+		if (nova == NULL) 
+		{
+			printf("\nErro na alocação de memória para o nó da lista\n") ;
+			return ;
+		} /* if */
+		
+		nova->data = x ;
+		nova->prox = *p ;
+		*p = nova ;
+
+	} /* Fim função:  LST Criar lista encadeada de inteiros */
 
 /***************************************************************************
 *
-*  Função: LST Criar lista encadeada de inteiros
+*  Função: LST Imprime lista
 *  
 ***************************************************************************/
 
-void LST_Imprime (LST *le)
-{
-	if (le != NULL) 
+	void LST_Imprime ( LST *le )
 	{
-		printf ("%d -> ", le->data);
-		LST_Imprime (le->prox);
-	} /* if */ 
-	else
-	{
-		printf("NULL\n");
-	}/* else */
-}
+
+		if (le != NULL) 
+		{
+			printf ("%d -> ", le->data) ;
+			LST_Imprime (le->prox) ;
+		} /* if */ 
+		else
+		{
+			printf("NULL\n") ;
+		}/* else */
+
+	} /* Fim função: LST Imprime lista */
+
+
+/********** Fim do módulo de implementação: Módulo lista **********/

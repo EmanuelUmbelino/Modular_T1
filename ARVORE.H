@@ -7,21 +7,19 @@
 *  Arquivo gerado:              ARVORE.H
 *  Letras identificadoras:      ARV
 *
-*  Nome da base de software:    Exemplo de teste automatizado
-*  Arquivo da base de software: D:\AUTOTEST\PROJETOS\SIMPLES.BSW
-*
-*  Projeto: Disciplinas INF 1628 / 1301
+*  Projeto: Disciplina INF 1301
 *  Gestor:  DI/PUC-Rio
 *  Autores: elu - Emanuel Lima Umbelino
 *        jpk - João Pedro Kalil
 *        phs - Pedro Henrique Soares
 *
 *  $HA Histórico de evolução:
-*     Versão      Autores        Data        Observações
-*      1.30      phs    02/04/2019     Especificação da função de inserção de valor em lista de inteiros.
-*      1.10    elu/jpk     29/03/2019     Criadas funções para gerar e imprimir a costura das folhas,
-*                                   além de adicionada a condição de retorno para costura vazia.
-*      1.00    elu/jpk     25/03/2019     Inicializado projeto
+*     Versão   Autores  Data           Observações
+*      1.30      elu    03/04/2019     Refeita forma de inserção na lista de inteiros
+*      1.20      phs    02/04/2019     Especificação da função de inserção de valor em lista de inteiros.
+*      1.10    elu/jpk  29/03/2019     Criadas funções para gerar e imprimir a costura das folhas,
+*                                      além de adicionada a condição de retorno para costura vazia.
+*      1.00    elu/jpk  25/03/2019     Inicializado projeto
 *
 *  $ED Descrição do módulo
 *     Este módulo implementa um conjunto simples de funções para criar e
@@ -81,9 +79,6 @@
 
          ARV_CondRetCosturaNaoExiste = 9,
                /* Costura não foi gerada */
-      
-       ARV_CondRetListaDeInteirosNaoExiste = 10
-               /* Lista de inteiros não foi gerada */
 
    } ARV_tpCondRet ;
 
@@ -133,7 +128,7 @@
 *
 ***********************************************************************/
 
-   ARV_tpCondRet ARV_InserirEsquerda( char ValorParm ) ;
+   ARV_tpCondRet ARV_InserirEsquerda( char ValorParm, int a, int b ) ;
 
 
 /***********************************************************************
@@ -142,6 +137,8 @@
 *
 *  $EP Parâmetros
 *     $P ValorParm - valor a ser inserido no novo nó
+*     $P a - primeiro valor da lista de inteiros
+*     $P b - segundo valor da lista de inteiros
 *
 *  $FV Valor retornado
 *     ARV_CondRetOK
@@ -151,7 +148,7 @@
 *
 ***********************************************************************/
 
-   ARV_tpCondRet ARV_InserirDireita( char ValorParm ) ;
+   ARV_tpCondRet ARV_InserirDireita( char ValorParm, int a, int b ) ;
 
 
 /***********************************************************************
@@ -229,6 +226,7 @@
 *     ARV_CondRetOK
 *     ARV_CondRetArvoreNaoExiste
 *     ARV_CondRetArvoreVazia
+*     ARV_CondRetFaltouMemoria
 *
 ***********************************************************************/
 
@@ -251,38 +249,12 @@
 
 /***********************************************************************
 *
-*  $FC Função:  ARV Insere nó na lista de inteiros das folhas
-*
-*  $EP Parâmetros
-*     $P ValorParm - É o parâmetro que receberá o inteiro a ser inserido na lista.
-*
-*  $EAE Assertivas de entradas esperadas
-*     pNoCorr != NULL 
-*
-*  $FV Valor retornado
-*     ARV_CondRetOK
-*     ARV_CondRetArvoreNaoExiste
-*     ARV_CondRetArvoreVazia
-*    ARV_CondRetFaltouMemoria
-*    ARV_CondRetNaoEhFolha
-*
-***********************************************************************/
-
-   ARV_tpCondRet ARV_InsereLista( int ValorParm );
-
-
-/***********************************************************************
-*
 *  $FC Função:  LST Imprime a lista de inteiros do nó corrente
 *
-*  $EAE Assertivas de entradas esperadas
-*     pNoCorr != NULL 
-*
 *  $FV Valor retornado
 *     ARV_CondRetOK
 *     ARV_CondRetArvoreNaoExiste
 *     ARV_CondRetArvoreVazia
-*    ARV_CondRetListaDeInteirosNaoExiste
 *
 ***********************************************************************/
 
